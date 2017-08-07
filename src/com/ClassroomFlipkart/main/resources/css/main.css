@@ -1,0 +1,64 @@
+//defining Main Window theme Color variable
+* {
+   -fx-mainWindowBackgroundColor: #323232;
+   -fx-WhiteColor: white;
+}
+
+.root{
+    -fx-background-color: -fx-mainWindowBackgroundColor;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-padding: 0;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.scroll-pane {
+   -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 5em;
+}
+.check-box .box {
+-fx-background-color: white;
+-fx-border-color:grey;
+-fx-border-radius:3px;
+}
+
+.check-box:selected .mark {
+-fx-background-color: white;
+}
+
+.check-box:selected .box {
+-fx-background-color: #28a3f4;
+}
+
+.text-area {
+    text-area-background: transparent ;
+}
+
+.text-area .content {
+    -fx-background-color: text-area-background ;
+}
