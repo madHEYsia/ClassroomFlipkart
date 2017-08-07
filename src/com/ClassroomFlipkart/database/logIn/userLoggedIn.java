@@ -13,7 +13,7 @@ public class userLoggedIn {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String query = DBUtils.prepareSelectQuery(" * ", "classroommail.currentuser", "id = '"+id+"'" );
+        String query = DBUtils.prepareSelectQuery(" * ", "classroomflipkart.currentuser", "id = '"+id+"'" );
 
         String[] status = {"ongoing","",""};
 
@@ -23,7 +23,7 @@ public class userLoggedIn {
             rs = stmt.executeQuery();
             if (rs.next()){
                 status[0]="success";
-                status[1]=rs.getString("fullName");
+                status[1]=rs.getString("name");
                 status[2]=rs.getString("emailId");
             }
         } catch (Exception e) {

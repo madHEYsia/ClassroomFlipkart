@@ -16,9 +16,9 @@ public class dbLoginCheck {
 
         String userID = getMotherboardSN.getMotherboardSN();
 
-        String query = DBUtils.prepareSelectQuery(" * ", "classroommail.userdetail", "( emailId = ? AND password = ? )");
+        String query = DBUtils.prepareSelectQuery(" * ", "classroomflipkart.userdetail", "( emailId = ? AND password = ? )");
 
-        String updateCurrentUserQuery = DBUtils.prepareInsertQuery("classroommail.currentuser", "id, fullName, emailId", "?,?,?");
+        String updateCurrentUserQuery = DBUtils.prepareInsertQuery("classroomflipkart.currentuser", "id, name, emailId", "?,?,?");
 
         String[] status = {"ongoing",""};
 
@@ -36,7 +36,7 @@ public class dbLoginCheck {
             if (size>0){
                 status[0]="success";
                 rs.next();
-                status[1]=rs.getString("fullName");
+                status[1]=rs.getString("name");
 
                 stmt = con.prepareStatement(updateCurrentUserQuery);
                 stmt.setString(1, userID);

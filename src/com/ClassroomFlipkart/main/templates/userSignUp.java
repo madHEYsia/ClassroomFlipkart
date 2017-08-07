@@ -53,7 +53,7 @@ public class userSignUp {
         email.setFont(new Font("Open Sans", 15));
         email.setPromptText("Email Id");
         email.setPrefHeight(30);
-        email.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed; -fx-text-fill: red;");
+        email.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
 
         PasswordField password = new PasswordField();
         password.setFont(new Font("Open Sans", 15));
@@ -119,7 +119,7 @@ public class userSignUp {
 
         vb.getChildren().addAll(fullName, email, password, confirmPassword, error, signUpRow);
         signUpPane.setCenter(vb);
-        signUpPane.setMinHeight(400);
+        signUpPane.setPrefHeight(300);
 
         return signUpPane;
     }

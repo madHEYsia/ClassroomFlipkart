@@ -19,7 +19,7 @@ public class loginHome {
 
         BorderPane view = new BorderPane();
 
-        Label title = new Label("Classroom Mail");
+        Label title = new Label("Classroom Flipkart");
         title.setFont(new Font("Open Sans", 60));
         title.setTextFill(Color.web("#ededed"));
 
@@ -47,6 +47,7 @@ public class loginHome {
 
         BorderPane credential = new BorderPane(loginObject.userLogin(), header, null, null, null);
         credential.setMaxWidth(350);
+        credential.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-border-color: grey; -fx-border-width: 1 1 1 1;");
 
         login.setOnMouseClicked(e->{
             credential.setCenter(loginObject.userLogin());

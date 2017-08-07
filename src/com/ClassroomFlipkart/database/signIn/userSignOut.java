@@ -9,7 +9,7 @@ public class userSignOut {
 
         String userID = getMotherboardSN.getMotherboardSN();
 
-        DBUtils.performAction("DELETE FROM `classroommail`.`currentuser` WHERE `id`='"+userID+"';");
+        DBUtils.performAction("DELETE FROM `classroomflipkart`.`currentuser` WHERE `id`='"+userID+"';");
     }
 
 }

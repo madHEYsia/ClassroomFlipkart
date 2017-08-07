@@ -24,7 +24,7 @@ public class main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         window=primaryStage;
-        window.setTitle("Classroom Mail");
+        window.setTitle("Classroom Flipkart");
 
         String userID = getMotherboardSN.getMotherboardSN();
         String[] status = userLoggedIn.userLoggedIn(userID);
@@ -34,7 +34,7 @@ public class main extends Application {
         else
             window.setScene(profile.main(status[1], status[2]));
 
-        window.getIcons().add(new Image(getClass().getResourceAsStream("../../resources/images/ClassroomMail.png")));
+        window.getIcons().add(new Image(getClass().getResourceAsStream("../../resources/images/ClassroomFlipkart.png")));
         window.setMinWidth(850);
         window.setMinHeight(550);
 

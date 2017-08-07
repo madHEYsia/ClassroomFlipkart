@@ -102,7 +102,7 @@ public class userLogin {
 
         vb.getChildren().addAll(emailId, password, error, loginRow);
         loginPane.setCenter(vb);
-        loginPane.setMinHeight(400);
+        loginPane.setPrefHeight(332);
 
         return loginPane;
     }
