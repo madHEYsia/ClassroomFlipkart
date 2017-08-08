@@ -27,18 +27,18 @@ public class productDetail {
         name.setMaxWidth(150);
         name.setWrapText(true);
 
-        Label oldP = new Label(oldPrice);
-        oldP.setPadding(new Insets(3));
-        oldP.setFont(Font.font("Open Sans", 13));
-        oldP.setAlignment(Pos.TOP_LEFT);
-
-        Label newP = new Label(newPrice);
-        newP.setPadding(new Insets(3));
-        newP.setFont(Font.font("Open Sans", 13));
+        Label newP = new Label("₹ "+newPrice);
+        newP.setPadding(new Insets(0,5,0,5));
+        newP.setFont(Font.font("Open Sans", 14));
         newP.setAlignment(Pos.TOP_RIGHT);
 
+        Label off = new Label((int)(100*(1.0 - Double.parseDouble(newPrice)/Double.parseDouble(oldPrice)))+"% off");
+        off.setPadding(new Insets(0,5,0,5));
+        off.setFont(Font.font("Open Sans", 14));
+        off.setAlignment(Pos.TOP_LEFT);
+
         BorderPane pro =  new BorderPane(name,imgView,null,
-                new BorderPane(null,null,oldP,null,newP),
+                new BorderPane(null,null,off,null,newP),
                 null);
         pro.setPrefHeight(200);
 

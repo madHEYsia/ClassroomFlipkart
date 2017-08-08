@@ -8,6 +8,7 @@ import com.ClassroomFlipkart.main.windows.home.main;
 import com.ClassroomFlipkart.main.templates.checkout.checkoutDetails;
 import com.ClassroomFlipkart.main.templates.orders.myOrders;
 import com.ClassroomFlipkart.database.signIn.userSignOut;
+import com.ClassroomFlipkart.database.cart.*;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -101,7 +102,7 @@ public class profile {
         notification.setFont(new Font("Open Sans", 0));
         notification.setStyle("-fx-border-color: red; -fx-border-width : 12; -fx-border-radius: 100");
 
-        int cartNumber = 7 ;
+        int cartNumber = getItemsInCart.getItems(getCartId.getId(emailId));
         itemsInCart = new Label(cartNumber+"");
         itemsInCart.setFont(Font.font("Open Sans", FontWeight.BOLD, 12));
         itemsInCart.setTextFill(Color.web("#fff"));

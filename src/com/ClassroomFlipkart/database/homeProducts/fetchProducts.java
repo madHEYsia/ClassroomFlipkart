@@ -48,7 +48,7 @@ public class fetchProducts {
                 rs.beforeFirst();
 
                 Label title = new Label(type+"");
-                title.setFont(Font.font("Open Sans", FontWeight.BOLD,15));
+                title.setFont(Font.font("Open Sans", FontWeight.BOLD,17));
                 title.setPadding(new Insets(10));
                 title.setAlignment(Pos.CENTER);
 
