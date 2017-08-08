@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: classroommail
+-- Host: localhost    Database: classroomflipkart
 -- ------------------------------------------------------
 -- Server version	5.7.12-log
 
@@ -16,29 +16,51 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `chat`
+-- Table structure for table `cartdetails`
 --
 
-DROP TABLE IF EXISTS `chat`;
+DROP TABLE IF EXISTS `cartdetails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `chat` (
-  `timestamp` varchar(50) NOT NULL,
-  `sender` varchar(100) NOT NULL,
-  `receiver` varchar(100) NOT NULL,
-  `message` varchar(200) NOT NULL,
-  PRIMARY KEY (`timestamp`,`sender`)
+CREATE TABLE `cartdetails` (
+  `cartId` varchar(100) NOT NULL,
+  `productId` varchar(45) NOT NULL,
+  `quantity` varchar(100) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`cartId`,`productId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `chat`
+-- Dumping data for table `cartdetails`
 --
 
-LOCK TABLES `chat` WRITE;
-/*!40000 ALTER TABLE `chat` DISABLE KEYS */;
-INSERT INTO `chat` VALUES ('2017.07.27.19.55.28','submiitr07@gmail.com','hkbansal@gmail.com','Please check the slider.js file '),('2017.07.27.20.55.28','submiitr07@gmail.com','vkthakur@gmail.com','I made some changes yesterday. Pull latest code'),('2017.07.29.10.55.28','hkbansal@gmail.com','vkthakur@gmail.com',' @vikrant corrected it. Working fine.'),('2017.07.29.12.29.12','vkthakur@gmail.com','submiitr07@gmail.com','ok'),('2017.07.29.12.29.43','hkbansal@gmail.com','submiitr07@gmail.com','Its fun. Trying again. Afterall I made it'),('2017.07.29.12.36.33','submiitr07@gmail.com','ravi@gmail.com','fix that bug please'),('2017.07.29.21.43.53','hkbansal@gmail.com','ravi@gmail.com','Sample Tsting here also\n:)'),('2017.07.30.01.49.51','submiitr07@gmail.com','ravi@gmail.com','Even comment too'),('2017.08.04.01.56.19','submiitr07@gmail.com','hkbansal@gmail.com','Hi, testing on UI comment'),('2017.08.04.01.57.11','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.13','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.14','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.16','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.17','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.20','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.02.00.55','hkbansal@gmail.com','ravi@gmail.com','*Testing\nSorry sir'),('2017.08.04.02.26.51','hkbansal@gmail.com','submiitr07@gmail.com','Keep Testing. Be consistent'),('2017.08.04.02.27.16','hkbansal@gmail.com','vkthakur@gmail.com','Thanks. Will look at it and merge in master'),('2017.08.04.02.54.47','hkbansal@gmail.com','harpreet@gmail.com','Hello there !!'),('2017.08.04.15.07.25','submiitr07@gmail.com','navin@gmail.com','Hello there !!');
-/*!40000 ALTER TABLE `chat` ENABLE KEYS */;
+LOCK TABLES `cartdetails` WRITE;
+/*!40000 ALTER TABLE `cartdetails` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cartdetails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `category` varchar(100) NOT NULL,
+  `subcategory` varchar(100) NOT NULL,
+  PRIMARY KEY (`category`,`subcategory`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES ('APPLIANCES','Air Conditioners'),('APPLIANCES','Kitchen Appliances'),('APPLIANCES','Refrigerators'),('APPLIANCES','Smart Home Appliances'),('APPLIANCES','Televisions'),('APPLIANCES','Washing Machine'),('BABY & KIDS','Baby Care'),('BABY & KIDS','Boy\'s Clothing'),('BABY & KIDS','Boy\'s Foot Wear'),('BABY & KIDS','Girl\'s Clothing'),('BABY & KIDS','Girl\'s Foot Wear'),('BABY & KIDS','Toys'),('BOOKS & MORE','Books'),('BOOKS & MORE','Car & Bike Accessories'),('BOOKS & MORE','Car Electronics & Applications'),('BOOKS & MORE','Exercise & Fitness'),('BOOKS & MORE','Gaming & Accessories'),('BOOKS & MORE','Music'),('BOOKS & MORE','Sports'),('BOOKS & MORE','Stationery'),('ELECTRONICS','Desktop PCs'),('ELECTRONICS','Home Entertainement'),('ELECTRONICS','Laptops'),('ELECTRONICS','Mobile'),('ELECTRONICS','Mobile Accessories'),('ELECTRONICS','Smart Wearables Tech'),('FURNITURE','Dining & Serving'),('FURNITURE','Furnishing'),('FURNITURE','furniture'),('FURNITURE','Kitchen & Dining'),('FURNITURE','Kitchen Storage'),('FURNITURE','Lightning'),('MEN','Accessories'),('MEN','Bottom Wear'),('MEN','Footwear'),('MEN','Men\'s Grooming'),('MEN','Sports Wear'),('MEN','Top Wear'),('MEN','Watches'),('WOMEN','Accessories'),('WOMEN','Beauty & Grooming'),('WOMEN','Ethnic Wear'),('WOMEN','Foot Wear'),('WOMEN','Jewellery'),('WOMEN','Sports Wear'),('WOMEN','Western Wear');
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -50,8 +72,8 @@ DROP TABLE IF EXISTS `currentuser`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `currentuser` (
   `id` varchar(100) NOT NULL,
-  `fullName` varchar(400) NOT NULL,
   `emailId` varchar(100) NOT NULL,
+  `name` varchar(400) NOT NULL,
   PRIMARY KEY (`id`,`emailId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -62,67 +84,174 @@ CREATE TABLE `currentuser` (
 
 LOCK TABLES `currentuser` WRITE;
 /*!40000 ALTER TABLE `currentuser` DISABLE KEYS */;
-INSERT INTO `currentuser` VALUES ('.8Q8MF32.CN762064CH1JMT.','Harsh Bansal','hkbansal@gmail.com');
+INSERT INTO `currentuser` VALUES ('.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Shubham');
 /*!40000 ALTER TABLE `currentuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `mails`
+-- Table structure for table `productcoment`
 --
 
-DROP TABLE IF EXISTS `mails`;
+DROP TABLE IF EXISTS `productcoment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `mails` (
-  `subjectId` varchar(100) NOT NULL,
-  `messageTimestamp` varchar(100) NOT NULL,
-  `senderMail` varchar(100) NOT NULL,
-  `receiverMail` varchar(100) NOT NULL,
-  `message` varchar(5000) DEFAULT NULL,
-  PRIMARY KEY (`subjectId`,`messageTimestamp`)
+CREATE TABLE `productcoment` (
+  `timestamp` varchar(45) NOT NULL,
+  `productId` varchar(10) NOT NULL,
+  `emailId` varchar(45) NOT NULL,
+  `productComent` varchar(2000) DEFAULT NULL,
+  PRIMARY KEY (`timestamp`,`productId`,`emailId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `mails`
+-- Dumping data for table `productcoment`
 --
 
-LOCK TABLES `mails` WRITE;
-/*!40000 ALTER TABLE `mails` DISABLE KEYS */;
-INSERT INTO `mails` VALUES ('2017.08.04.18.18.15.8Q8MF32.CN762064CH1JMT.','2017.08.04.18.18.15','submiitr07@gmail.com','hkbansal@gmail.com;vkthakur@gmail.com','Nice working with you.'),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','2017.08.04.18.21.02','hkbansal@gmail.com','ravi@gmail.com;submiitr07@gmail.com','Thanks dude.'),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','2017.08.04.20.23.09','submiitr07@gmail.com','hkbansal@gmail.com ; ravi@gmail.com','All the best Harsh !!'),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','2017.08.04.21.23.09','hkbansal@gmail.com','submiitr07@gmail.com',':)'),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','2017.08.05.19.12.02','hkbansal@gmail.com','submiitr07@gmail.com','Hi.\n\n-Harsh Bansal'),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','2017.08.05.19.14.45','hkbansal@gmail.com','ravi@gmail.com','Thanks'),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','2017.08.05.19.43.29','submiitr07@gmail.com','hkbansal@gmail.com','Hello. How are you ?'),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','2017.08.05.20.39.41','submiitr07@gmail.com','hkbansal@gmail.com','I am fine. Hows is DBMS course'),('2017.08.04.18.23.09.8Q8MF32.CN762064CH1JMT.','2017.08.04.18.23.09','hkbansal@gmail.com','hkbansal@gmail.com','ookkkk'),('2017.08.04.18.23.09.8Q8MF32.CN762064CH1JMT.','2017.08.06.22.24.30','hkbansal@gmail.com','submiitr07@gmail.com','Plz test'),('2017.08.05.20.46.40.8Q8MF32.CN762064CH1JMT.','2017.08.05.20.46.40','ravi@gmail.com','harpreet@gmail.com','How are you there ?'),('2017.08.05.20.46.40.8Q8MF32.CN762064CH1JMT.','2017.08.05.21.22.32','harpreet@gmail.com','submiitr07@gmail.com','Hey shubham this mail must be new to you. Isn\'t it ?'),('2017.08.05.20.46.40.8Q8MF32.CN762064CH1JMT.','2017.08.05.21.26.23','submiitr07@gmail.com','harpreet@gmail.com','yeah Bro. You did it'),('2017.08.05.20.46.40.8Q8MF32.CN762064CH1JMT.','2017.08.05.21.30.59','submiitr07@gmail.com','harpreet@gmail.com','Inox unread not working'),('2017.08.05.20.46.40.8Q8MF32.CN762064CH1JMT.','2017.08.05.21.32.13','harpreet@gmail.com','submiitr07@gmail.com','Its working. Chill'),('2017.08.05.20.46.40.8Q8MF32.CN762064CH1JMT.','2017.08.05.23.34.55','submiitr07@gmail.com','harpreet@gmail.com','you used receive this mail even if you deleted my thread. \n,,|,'),('2017.08.05.22.52.09.8Q8MF32.CN762064CH1JMT.','2017.08.05.22.52.09','submiitr07@gmail.com','navin@gmail.com','tested'),('2017.08.05.22.52.09.8Q8MF32.CN762064CH1JMT.','2017.08.05.23.05.30','navin@gmail.com','harpreet@gmail.com','It really feels good to have found the bug. SOLVED !!'),('2017.08.06.01.41.20.8Q8MF32.CN762064CH1JMT.','2017.08.06.01.41.20','submiitr07@gmail.com','submiitr07@gmail.com','here'),('2017.08.06.03.16.34.8Q8MF32.CN762064CH1JMT.','2017.08.06.03.16.34','submiitr07@gmail.com','submiitr07@gmail.com',''),('2017.08.06.03.16.34.8Q8MF32.CN762064CH1JMT.','2017.08.06.03.32.26','submiitr07@gmail.com','submiitr07@gmail.com','ok'),('2017.08.06.03.16.34.8Q8MF32.CN762064CH1JMT.','2017.08.06.03.32.49','submiitr07@gmail.com','submiitr07@gmail.com','last'),('2017.08.06.15.35.10.8Q8MF32.CN762064CH1JMT.','2017.08.06.15.35.10','hkbansal@gmail.com','submiitr07@gmail.com','Here'),('2017.08.06.22.26.18.8Q8MF32.CN762064CH1JMT.','2017.08.06.22.26.18','hkbansal@gmail.com','submiitr07@gmail.com',''),('2017.08.06.22.26.30.8Q8MF32.CN762064CH1JMT.','2017.08.06.22.26.30','hkbansal@gmail.com','submiitr07@gmail.com',''),('2017.08.06.22.26.37.8Q8MF32.CN762064CH1JMT.','2017.08.06.22.26.37','hkbansal@gmail.com','submiitr07@gmail.com',''),('2017.08.06.22.26.58.8Q8MF32.CN762064CH1JMT.','2017.08.06.22.26.58','hkbansal@gmail.com','submiitr07@gmail.com','submiitr07@gmail.com'),('2017.08.06.22.27.43.8Q8MF32.CN762064CH1JMT.','2017.08.06.22.27.43','hkbansal@gmail.com','submiitr07@gmail.com','submiitr07@gmail.com\n\nsubmiitr07@gmail.com'),('2017.08.06.22.27.50.8Q8MF32.CN762064CH1JMT.','2017.08.06.22.27.50','hkbansal@gmail.com','submiitr07@gmail.com','submiitr07@gmail.comsubmiitr07@gmail.comsubmiitr07@gmail.comsubmiitr07@gmail.com'),('2017.08.06.22.28.27.8Q8MF32.CN762064CH1JMT.','2017.08.06.22.28.27','hkbansal@gmail.com','submiitr07@gmail.com','ohh'),('2017.08.06.22.28.46.8Q8MF32.CN762064CH1JMT.','2017.08.06.22.28.46','hkbansal@gmail.com','submiitr07@gmail.com','ok');
-/*!40000 ALTER TABLE `mails` ENABLE KEYS */;
+LOCK TABLES `productcoment` WRITE;
+/*!40000 ALTER TABLE `productcoment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `productcoment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `subjectdetails`
+-- Table structure for table `productdetail`
 --
 
-DROP TABLE IF EXISTS `subjectdetails`;
+DROP TABLE IF EXISTS `productdetail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `subjectdetails` (
-  `subjectId` varchar(100) NOT NULL,
-  `mailId` varchar(100) NOT NULL,
-  `subjectName` varchar(1000) NOT NULL DEFAULT '(no subject)',
-  `important` varchar(10) NOT NULL DEFAULT 'false',
-  `deleted` varchar(10) NOT NULL DEFAULT 'false',
-  `latestMessageRead` varchar(10) NOT NULL DEFAULT 'false',
-  `isDraft` varchar(10) NOT NULL DEFAULT 'false',
-  `draftMessage` varchar(2000) DEFAULT NULL,
-  `draftReceipents` varchar(1000) DEFAULT NULL,
-  `draftTimeStamp` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`subjectId`,`mailId`)
+CREATE TABLE `productdetail` (
+  `productId` varchar(10) NOT NULL,
+  `productName` varchar(200) DEFAULT NULL,
+  `newPrice` varchar(10) DEFAULT NULL,
+  `oldPrice` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`productId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `subjectdetails`
+-- Dumping data for table `productdetail`
 --
 
-LOCK TABLES `subjectdetails` WRITE;
-/*!40000 ALTER TABLE `subjectdetails` DISABLE KEYS */;
-INSERT INTO `subjectdetails` VALUES ('2017.08.04.18.18.15.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','Farewell','true','false','true','false','','',NULL),('2017.08.04.18.18.15.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Farewell','true','false','true','false','','',NULL),('2017.08.04.18.18.15.8Q8MF32.CN762064CH1JMT.','vkthakur@gmail.com','Farewell','true','false','false','false','','',NULL),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','Thanks','false','false','true','true','','','2017.08.04.18.21.02'),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','ravi@gmail.com','Thanks','false','false','true','false','','',NULL),('2017.08.04.18.21.02.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Thanks','false','false','true','false','','',NULL),('2017.08.04.18.23.09.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','again self testing','true','false','true','false','Plz test','submiitr07@gmail.com','2017.08.05.18.12.54'),('2017.08.04.18.23.09.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Fwd: again self testing','true','false','false','false','','',NULL),('2017.08.05.18.12.54.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','(no subject)','true','false','true','true','','','2017.08.05.18.12.54'),('2017.08.05.20.46.40.8Q8MF32.CN762064CH1JMT.','harpreet@gmail.com','Hi Harpreet','true','false','true','true','','','2017.08.05.20.46.40'),('2017.08.05.20.46.40.8Q8MF32.CN762064CH1JMT.','ravi@gmail.com','Hi Harpreet','true','false','true','false','','',NULL),('2017.08.05.20.46.40.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Hi Harpreet','true','false','true','false','','',NULL),('2017.08.05.22.52.09.8Q8MF32.CN762064CH1JMT.','harpreet@gmail.com','Fwd: Navin Testing','true','false','true','false','','',NULL),('2017.08.05.22.52.09.8Q8MF32.CN762064CH1JMT.','navin@gmail.com','Navin Testing','true','false','true','false','','',NULL),('2017.08.05.22.52.09.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Navin Testing','true','false','true','false','','',NULL),('2017.08.06.01.41.20.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','this is longggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg  subject','true','false','true','false','','',NULL),('2017.08.06.03.16.34.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Self message Testing','false','false','true','false','','',NULL),('2017.08.06.15.35.10.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','Important Mail','true','false','true','false','','',NULL),('2017.08.06.15.35.10.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Important Mail','true','false','false','false','','',NULL),('2017.08.06.22.26.18.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','Testing','false','false','true','false','','',NULL),('2017.08.06.22.26.18.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Testing','false','false','false','false','','',NULL),('2017.08.06.22.26.30.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','Testing','false','false','true','false','','',NULL),('2017.08.06.22.26.30.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','Testing','false','false','false','false','','',NULL),('2017.08.06.22.26.37.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','submiitr07@gmail.com','false','false','true','false','','',NULL),('2017.08.06.22.26.37.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','submiitr07@gmail.com','false','false','false','false','','',NULL),('2017.08.06.22.26.58.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','submiitr07@gmail.com','false','false','true','false','','',NULL),('2017.08.06.22.26.58.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','submiitr07@gmail.com','false','false','false','false','','',NULL),('2017.08.06.22.27.43.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','submiitr07@gmail.com','false','false','true','false','','',NULL),('2017.08.06.22.27.43.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','submiitr07@gmail.com','false','false','false','false','','',NULL),('2017.08.06.22.27.50.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','submiitr07@gmail.com','false','false','true','false','','',NULL),('2017.08.06.22.27.50.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','submiitr07@gmail.com','false','false','false','false','','',NULL),('2017.08.06.22.28.27.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','submiitr07@gmail.com','false','false','true','false','','',NULL),('2017.08.06.22.28.27.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','submiitr07@gmail.com','false','false','false','false','','',NULL),('2017.08.06.22.28.46.8Q8MF32.CN762064CH1JMT.','hkbansal@gmail.com','submiitr07@gmail.com','false','false','true','false','','',NULL),('2017.08.06.22.28.46.8Q8MF32.CN762064CH1JMT.','submiitr07@gmail.com','submiitr07@gmail.com','false','false','false','false','','',NULL);
-/*!40000 ALTER TABLE `subjectdetails` ENABLE KEYS */;
+LOCK TABLES `productdetail` WRITE;
+/*!40000 ALTER TABLE `productdetail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `productdetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `productseller`
+--
+
+DROP TABLE IF EXISTS `productseller`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `productseller` (
+  `productId` varchar(10) NOT NULL,
+  `sellerId` varchar(10) NOT NULL,
+  PRIMARY KEY (`productId`,`sellerId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `productseller`
+--
+
+LOCK TABLES `productseller` WRITE;
+/*!40000 ALTER TABLE `productseller` DISABLE KEYS */;
+/*!40000 ALTER TABLE `productseller` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sellerdetails`
+--
+
+DROP TABLE IF EXISTS `sellerdetails`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sellerdetails` (
+  `sellerId` varchar(10) NOT NULL,
+  `sellerName` varchar(100) DEFAULT NULL,
+  `sellerDescription` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`sellerId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sellerdetails`
+--
+
+LOCK TABLES `sellerdetails` WRITE;
+/*!40000 ALTER TABLE `sellerdetails` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sellerdetails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sellerpincodes`
+--
+
+DROP TABLE IF EXISTS `sellerpincodes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sellerpincodes` (
+  `sellerId` varchar(10) NOT NULL,
+  `pincode` varchar(6) NOT NULL,
+  PRIMARY KEY (`sellerId`,`pincode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sellerpincodes`
+--
+
+LOCK TABLES `sellerpincodes` WRITE;
+/*!40000 ALTER TABLE `sellerpincodes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sellerpincodes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `useraddress`
+--
+
+DROP TABLE IF EXISTS `useraddress`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `useraddress` (
+  `userId` int(11) NOT NULL,
+  `userAddress` varchar(45) NOT NULL,
+  PRIMARY KEY (`userId`,`userAddress`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `useraddress`
+--
+
+LOCK TABLES `useraddress` WRITE;
+/*!40000 ALTER TABLE `useraddress` DISABLE KEYS */;
+/*!40000 ALTER TABLE `useraddress` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usercart`
+--
+
+DROP TABLE IF EXISTS `usercart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usercart` (
+  `emailId` varchar(100) NOT NULL,
+  `cartId` varchar(100) NOT NULL,
+  PRIMARY KEY (`emailId`,`cartId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usercart`
+--
+
+LOCK TABLES `usercart` WRITE;
+/*!40000 ALTER TABLE `usercart` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usercart` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -133,8 +262,8 @@ DROP TABLE IF EXISTS `userdetail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `userdetail` (
-  `fullName` varchar(100) NOT NULL,
   `emailId` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   PRIMARY KEY (`emailId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -146,7 +275,7 @@ CREATE TABLE `userdetail` (
 
 LOCK TABLES `userdetail` WRITE;
 /*!40000 ALTER TABLE `userdetail` DISABLE KEYS */;
-INSERT INTO `userdetail` VALUES ('Harpreet Singh','harpreet@gmail.com','iitr'),('Harsh Bansal','hkbansal@gmail.com','iitr'),('Mukul Gupta','mukul@gmail.com','iitr'),('Navin Gupta','navin@gmail.com','iitr'),('Nitesh Prajapati','nitesh@gmail.com','iitr'),('Ravi Sharma','ravi@gmail.com','iitr'),('Shubham Madheysia','submiitr07@gmail.com','iitr'),('Vikrant Thakur','vkthakur@gmail.com','iitr');
+INSERT INTO `userdetail` VALUES ('submiitr07@gmail.com','Shubham','iitr');
 /*!40000 ALTER TABLE `userdetail` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -159,4 +288,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-06 22:56:15
+-- Dump completed on 2017-08-08 17:08:11

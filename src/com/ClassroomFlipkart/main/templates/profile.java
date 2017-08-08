@@ -1,5 +1,7 @@
 package com.ClassroomFlipkart.main.templates;
 
+import com.ClassroomFlipkart.database.category.getCategories;
+import com.ClassroomFlipkart.database.category.getSubCategories;
 import com.ClassroomFlipkart.main.windows.home.main;
 
 import de.jensd.fx.glyphs.GlyphsDude;
@@ -7,20 +9,25 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class profile {
+
+    public static Label itemsInCart;
 
     public static Scene scene;
     public static BorderPane topPane ;
@@ -43,25 +50,27 @@ public class profile {
         //===================================TOP PANE STARTS===================================
 
         Label title = new Label("Classroom Flipkart");
-        title.setFont(new Font("Open Sans", 22));
+        title.setFont(Font.font("Open Sans", FontWeight.BOLD, 25));
         title.setTextFill(Color.web("#ededed"));
-        title.setPadding(new Insets(5,20,0,0));
+        title.setAlignment(Pos.TOP_LEFT);
+        title.setPadding(new Insets(-5,20,0,0));
 
         String imageURL = profile.class.getResource("../resources/images/ClassroomFlipkart.png").toExternalForm();
         Image img = new Image(imageURL);
         ImageView imgView = new ImageView(img);
-        imgView.setFitHeight(20);
+        imgView.setFitHeight(25);
         imgView.setPreserveRatio(true);
 
-        HBox leftTitle = new HBox(5,title,imgView);
-        leftTitle.setPadding(new Insets(0,20,0,0));
+        HBox leftTitle = new HBox(title,imgView);
+        leftTitle.setPadding(new Insets(10,20,0,0));
+        leftTitle.setCursor(Cursor.HAND);
 
         TextField mailSearch = new TextField();
         mailSearch.setPromptText("Search by keyword, mail Ids, Subject, etc");
         mailSearch.setFont(new Font("Open Sans", 15));
-        mailSearch.setPrefHeight(25);
+        mailSearch.setPrefHeight(20);
         mailSearch.setStyle("-fx-background-color: #ededed; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 2");
-        mailSearch.setPadding(new Insets(5,10,5,10));
+        mailSearch.setPadding(new Insets(4,10,4,10));
         mailSearch.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
             if(newValue && firstTime.get()){
                 centerPane.requestFocus(); // Delegate the focus to container
@@ -78,38 +87,78 @@ public class profile {
             }
         });
 
-        Label name = new Label(completeName);
+        Label cart = GlyphsDude.createIconLabel(FontAwesomeIcon.SHOPPING_CART,"","30","0",ContentDisplay.CENTER);
+        cart.setStyle("-fx-background-color: transparent");
+        cart.setPadding(new Insets(8,0,0,30));
+
+        Label notification = new Label("");
+        notification.setFont(new Font("Open Sans", 0));
+        notification.setStyle("-fx-border-color: red; -fx-border-width : 12; -fx-border-radius: 100");
+
+        int cartNumber = 7 ;
+        itemsInCart = new Label(cartNumber+"");
+        itemsInCart.setFont(Font.font("Open Sans", FontWeight.BOLD, 12));
+        itemsInCart.setTextFill(Color.web("#fff"));
+        itemsInCart.setPadding(new Insets(3));
+
+        StackPane items = new StackPane();
+        items.getChildren().addAll(notification,itemsInCart);
+        items.setAlignment(Pos.TOP_CENTER);
+        items.setPadding(new Insets(-2,0,0,-8));
+        items.setCursor(Cursor.HAND);
+
+        Label name = new Label("Hi "+completeName);
         name.setFont(new Font("Open Sans", 15));
         name.setTextFill(Color.web("#ededed"));
-        name.setPadding(new Insets(3,20,0,0));
+        name.setPadding(new Insets(8,0,0,30));
+        name.setMaxWidth(200);
 
-        Button orders = new Button("Your Orders");
-        orders.setFont(new Font("Open Sans", 15));
-        orders.setTextFill(Color.web("#ededed"));
-//        orders.setPadding(new Insets(5,20,0,0));
+        Menu option = new Menu();
+        GlyphsDude.setIcon(option,FontAwesomeIcon.CARET_DOWN);
 
-        int cartItem = 0;
-        Button cart = new Button("Cart "+cartItem);
-        cart.setFont(new Font("Open Sans", 15));
-        cart.setTextFill(Color.web("#ededed"));
-//        cart.setPadding(new Insets(5,20,0,20));
+        MenuItem orders = new MenuItem( "Your Orders");
+        MenuItem account = new MenuItem( "Your Account");
+        MenuItem signOut = new MenuItem( "Log Out");
+
+        MenuBar setting = new MenuBar(option);
+        setting.setPadding(new Insets(10,10,0,0));
+
+        option.getItems().addAll(orders,account,signOut);
+
+        MenuBar menus = new MenuBar();
+        String[] categories = getCategories.getCategories();
+
+        for (String category : categories) {
+            String[] subCategories = getSubCategories.getSubCategories(category);
+
+            Menu categoryType = new Menu(category);
+
+            for (String subCategory : subCategories) {
+                MenuItem subcateory = new MenuItem( subCategory);
+                subcateory.setOnAction(e->
+                        profile.centerPane.setCenter(itemsByCategory.category(subCategory))
+                );
+                categoryType.getItems().add(subcateory);
+            }
+
+            menus.getMenus().add(categoryType);
+        }
 
         topPane.setLeft(leftTitle);
-        topPane.setCenter(new HBox(mailSearch));
-        topPane.setRight(new VBox(5,name,new HBox(0,orders,cart)));
+        topPane.setCenter(mailSearch);
+        topPane.setRight(new HBox(0,cart, items, name, setting));
+        topPane.setBottom(menus);
 
-        //===================================TOP PANE ENDS===================================
+        //===================================TOP PANE ENDS========================================
 
-        //===================================CENTER PANE STARTS=====================================
+        //===================================CENTER PANE STARTS===================================
 
-//        centerPane.setCenter(centerPanel.centerPanel("Inbox", emailId,"ORDER BY messageTimestamp desc"));
+
 
         //===================================CENTER PANE ENDS=====================================
 
-
         BorderPane profilePane = new BorderPane(centerPane,topPane,null,bottomPane,null);
         profilePane.setStyle("-fx-background-color: lightgrey");
-
 
         scene = new Scene(profilePane,850,550);
         scene.getStylesheets().add(main.class.getResource("../../resources/css/main.css").toExternalForm());
@@ -121,4 +170,5 @@ public class profile {
         Matcher matcher = VALID_STRING_REGEX .matcher(Str);
         return matcher.find();
     }
+
 }

@@ -8,6 +8,23 @@
     -fx-background-color: -fx-mainWindowBackgroundColor;
 }
 
+.menu-bar, .menu-bar .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: #fff;
+    -fx-padding: 5 5 0 5;
+    -fx-font-size: 14 pt;
+}
+
+.menu-item .label{
+    -fx-text-fill: #222;
+}
+
+.menu:focused, .menu-item:hover, .menu-item:hover .label, .menu-item:focused, .menu-item:focused .label{
+    -fx-background-color: #2874f0;
+    -fx-text-fill: #fff;
+    -fx-padding: 5;
+}
+
 .split-pane > .split-pane-divider {
     -fx-padding: 0;
 }
