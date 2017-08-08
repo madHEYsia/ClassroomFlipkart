@@ -1,4 +1,4 @@
-package com.ClassroomFlipkart.main.templates;
+package com.ClassroomFlipkart.main.templates.category;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;

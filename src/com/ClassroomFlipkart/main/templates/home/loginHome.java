@@ -1,5 +1,7 @@
-package com.ClassroomFlipkart.main.templates;
+package com.ClassroomFlipkart.main.templates.home;
 
+import com.ClassroomFlipkart.main.templates.userLogin;
+import com.ClassroomFlipkart.main.templates.userSignUp;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -68,9 +70,9 @@ public class loginHome {
         view.setCenter(centerVB);
 
         Scene scene = new Scene(view,800,500);
-        scene.getStylesheets().add(loginHome.class.getResource("../resources/css/main.css").toExternalForm());
+        scene.getStylesheets().add(loginHome.class.getResource("../../resources/css/main.css").toExternalForm());
 
-        image = loginHome.class.getResource("../resources/images/splash.jpg").toExternalForm();
+        image = loginHome.class.getResource("../../resources/images/splash.jpg").toExternalForm();
         view.setStyle("-fx-background-image: url('" + image + "'); " +
                 "-fx-background-position: center center; " +
                 "-fx-background-size: cover, auto; " +

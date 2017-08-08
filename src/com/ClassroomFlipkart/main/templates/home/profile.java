@@ -1,8 +1,13 @@
-package com.ClassroomFlipkart.main.templates;
+package com.ClassroomFlipkart.main.templates.home;
 
 import com.ClassroomFlipkart.database.category.getCategories;
 import com.ClassroomFlipkart.database.category.getSubCategories;
+import com.ClassroomFlipkart.main.templates.account.myAccount;
+import com.ClassroomFlipkart.main.templates.category.itemsByCategory;
 import com.ClassroomFlipkart.main.windows.home.main;
+import com.ClassroomFlipkart.main.templates.checkout.checkoutDetails;
+import com.ClassroomFlipkart.main.templates.orders.myOrders;
+import com.ClassroomFlipkart.database.signIn.userSignOut;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -55,7 +60,7 @@ public class profile {
         title.setAlignment(Pos.TOP_LEFT);
         title.setPadding(new Insets(-5,20,0,0));
 
-        String imageURL = profile.class.getResource("../resources/images/ClassroomFlipkart.png").toExternalForm();
+        String imageURL = profile.class.getResource("../../resources/images/ClassroomFlipkart.png").toExternalForm();
         Image img = new Image(imageURL);
         ImageView imgView = new ImageView(img);
         imgView.setFitHeight(25);
@@ -64,6 +69,7 @@ public class profile {
         HBox leftTitle = new HBox(title,imgView);
         leftTitle.setPadding(new Insets(10,20,0,0));
         leftTitle.setCursor(Cursor.HAND);
+        leftTitle.setOnMouseClicked(e-> centerPane.setCenter(homeProducts.homeProducts()));
 
         TextField mailSearch = new TextField();
         mailSearch.setPromptText("Search by keyword, mail Ids, Subject, etc");
@@ -106,6 +112,7 @@ public class profile {
         items.setAlignment(Pos.TOP_CENTER);
         items.setPadding(new Insets(-2,0,0,-8));
         items.setCursor(Cursor.HAND);
+        items.setOnMouseClicked(e-> centerPane.setCenter(checkoutDetails.checkout()) );
 
         Label name = new Label("Hi "+completeName);
         name.setFont(new Font("Open Sans", 15));
@@ -117,8 +124,16 @@ public class profile {
         GlyphsDude.setIcon(option,FontAwesomeIcon.CARET_DOWN);
 
         MenuItem orders = new MenuItem( "Your Orders");
+        orders.setOnAction(e-> centerPane.setCenter(myOrders.orders()));
+
         MenuItem account = new MenuItem( "Your Account");
+        account.setOnAction(e-> centerPane.setCenter(myAccount.account()));
+
         MenuItem signOut = new MenuItem( "Log Out");
+        signOut.setOnAction(e-> {
+            userSignOut.userSignOut();
+            main.window.setScene(loginHome.homeView());
+        });
 
         MenuBar setting = new MenuBar(option);
         setting.setPadding(new Insets(10,10,0,0));
@@ -153,7 +168,7 @@ public class profile {
 
         //===================================CENTER PANE STARTS===================================
 
-
+        centerPane.setCenter(homeProducts.homeProducts());
 
         //===================================CENTER PANE ENDS=====================================
 

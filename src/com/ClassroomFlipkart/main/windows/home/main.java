@@ -2,8 +2,8 @@ package com.ClassroomFlipkart.main.windows.home;
 
 import com.ClassroomFlipkart.main.functions.getMotherboardSN;
 import com.ClassroomFlipkart.database.logIn.userLoggedIn;
-import com.ClassroomFlipkart.main.templates.loginHome;
-import com.ClassroomFlipkart.main.templates.profile;
+import com.ClassroomFlipkart.main.templates.home.loginHome;
+import com.ClassroomFlipkart.main.templates.home.profile;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

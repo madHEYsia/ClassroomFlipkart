@@ -1,6 +1,7 @@
 package com.ClassroomFlipkart.main.templates;
 
 import com.ClassroomFlipkart.database.signIn.dbSignUp;
+import com.ClassroomFlipkart.main.templates.home.profile;
 import com.ClassroomFlipkart.main.windows.home.main;
 
 import javafx.beans.property.BooleanProperty;
