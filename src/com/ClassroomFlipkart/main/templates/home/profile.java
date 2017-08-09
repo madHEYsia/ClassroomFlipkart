@@ -73,10 +73,10 @@ public class profile {
         leftTitle.setOnMouseClicked(e-> centerPane.setCenter(homeProducts.homeProducts()));
 
         TextField mailSearch = new TextField();
-        mailSearch.setPromptText("Search by keyword, mail Ids, Subject, etc");
+        mailSearch.setPromptText("Search for Products, Category, Seller and More");
         mailSearch.setFont(new Font("Open Sans", 15));
         mailSearch.setPrefHeight(20);
-        mailSearch.setStyle("-fx-background-color: #ededed; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 2");
+        mailSearch.setStyle("-fx-background-color: #fff; -fx-border-color: #fff; -fx-border-width: 1,1,1,1; -fx-border-radius: 2");
         mailSearch.setPadding(new Insets(4,10,4,10));
         mailSearch.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
             if(newValue && firstTime.get()){
@@ -138,10 +138,13 @@ public class profile {
 
         MenuBar setting = new MenuBar(option);
         setting.setPadding(new Insets(10,10,0,0));
+        setting.setCursor(Cursor.HAND);
 
         option.getItems().addAll(orders,account,signOut);
 
         MenuBar menus = new MenuBar();
+        menus.setCursor(Cursor.HAND);
+
         String[] categories = getCategories.getCategories();
 
         for (String category : categories) {
@@ -174,7 +177,6 @@ public class profile {
         //===================================CENTER PANE ENDS=====================================
 
         BorderPane profilePane = new BorderPane(centerPane,topPane,null,bottomPane,null);
-        profilePane.setStyle("-fx-background-color: lightgrey");
 
         scene = new Scene(profilePane,850,550);
         scene.getStylesheets().add(main.class.getResource("../../resources/css/main.css").toExternalForm());

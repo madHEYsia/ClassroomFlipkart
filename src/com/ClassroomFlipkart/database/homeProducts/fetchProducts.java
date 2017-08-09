@@ -60,9 +60,12 @@ public class fetchProducts {
                     String productName = rs.getString("productName");
                     String newPrice = rs.getString("newPrice");
                     String oldPrice = rs.getString("oldPrice");
+                    String category = rs.getString("category");
+                    String subcategory = rs.getString("subcategory");
                     String imageName = rs.getString("imageName");
+                    String productAvailability = rs.getString("productAvailability");
 
-                    productList.getChildren().add(productDetail.productByType(productId,productName,newPrice,oldPrice,imageName));
+                    productList.getChildren().add(productDetail.productByType(productId,productName,newPrice,oldPrice,category,subcategory,imageName, productAvailability));
                 }
 
                 ScrollPane proScroller = new ScrollPane(productList);

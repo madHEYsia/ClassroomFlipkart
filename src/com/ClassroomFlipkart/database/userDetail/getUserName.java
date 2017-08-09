@@ -8,14 +8,14 @@ import java.sql.ResultSet;
 
 public class getUserName {
 
-        public static String getUserName(String mailId) {
-            String name="";
+        public static String[] getUserName(String mailId) {
+            String[] name={"",""};
 
             Connection con = null;
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
-            String query = DBUtils.prepareSelectQuery(" fullName ",
+            String query = DBUtils.prepareSelectQuery(" * ",
                     "classroomflipkart.userdetail",
                     " emailId = '"+mailId+"' ",
                     "" );
@@ -31,13 +31,14 @@ public class getUserName {
                 if (size>0){
                     rs.beforeFirst();
                     rs.next();
-                    name = rs.getString("name");
+                    name[0] = rs.getString("name");
+                    name[1] = rs.getString("certifiedUser");
                 }
                 else
-                    name ="";
+                    name[0] = "";
 
             } catch (Exception e) {
-                name = e.getMessage();
+                name[0] = e.getMessage();
                 e.printStackTrace();
             } finally {
                 DBUtils.closeAll(rs, stmt, con);
