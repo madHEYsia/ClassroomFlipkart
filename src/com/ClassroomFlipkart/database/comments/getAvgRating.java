@@ -5,12 +5,13 @@ import com.ClassroomFlipkart.database.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Objects;
 
 public class getAvgRating {
 
     public static String[] getAvgRating(String productId) {
 
-        String[] avg = {"",""};
+        String[] avg = {"ongoing","0","0"};
 
         Connection con = null;
         PreparedStatement stmt = null;
@@ -27,10 +28,15 @@ public class getAvgRating {
             rs = stmt.executeQuery();
 
             rs.next();
-            avg[0] = rs.getString("avg").substring(0,4);
-            avg[1] = rs.getString("count");
+            avg[0] = "success";
+            avg[2] = rs.getString("count");
+            if (!Objects.equals(avg[2], "0"))
+                avg[1] = rs.getString("avg").substring(0,4);
+            else
+                avg[0] = "failed";
 
         } catch (Exception e) {
+            avg[0] = e.getMessage();
             e.printStackTrace();
         } finally {
             DBUtils.closeAll(rs, stmt, con);

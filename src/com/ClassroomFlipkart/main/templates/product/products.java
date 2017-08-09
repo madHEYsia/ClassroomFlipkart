@@ -122,7 +122,7 @@ public class products {
 
         Label rating = GlyphsDude.createIconLabel(
                 FontAwesomeIcon.STAR,
-                rateDetail[0]+"",
+                rateDetail[1]+"",
                 "14",
                 "14",
                 ContentDisplay.RIGHT
@@ -132,11 +132,13 @@ public class products {
         rating.setStyle("-fx-background-color: #388e3c");
         rating.setPadding(new Insets(0,10,0,10));
 
-        Label ratedBy = new Label(rateDetail[1]+" Ratings");
+        Label ratedBy = new Label(rateDetail[2]+" Ratings");
         ratedBy.setFont(Font.font("Open Sans",FontWeight.NORMAL, 14));
         ratedBy.setTextFill(Color.web("#666"));
 
-        HBox rate = new HBox(10,rating, ratedBy);
+        HBox rate = new HBox();
+        if (rateDetail[0].equals("success"))
+            rate = new HBox(10,rating, ratedBy);
         rate.setAlignment(Pos.CENTER_LEFT);
         rate.setPadding(new Insets(0,10,0,0));
 
@@ -221,15 +223,6 @@ public class products {
         main.window.widthProperty().addListener(e-> sellerDescription.setPrefWidth(0.50*main.window.getWidth()));
 
         VBox commentsVb = fetchComments.fetchComments(productId);
-
-
-
-
-
-
-
-
-
 
         rightVB.getChildren().addAll(
                 new HBox(5,categoryLabel, arrow, subcategoryLabel),
