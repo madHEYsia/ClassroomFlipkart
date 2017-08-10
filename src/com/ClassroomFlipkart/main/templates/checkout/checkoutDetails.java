@@ -1,15 +1,17 @@
 package com.ClassroomFlipkart.main.templates.checkout;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import com.ClassroomFlipkart.database.checkout.fetchitems;
+
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 
 public class checkoutDetails {
 
-    public static BorderPane checkout(){
+    public static BorderPane checkout(String emailId){
 
         BorderPane items = new BorderPane();
+
+        items.setLeft(fetchitems.itemList(emailId));
+
 
         return items;
     }

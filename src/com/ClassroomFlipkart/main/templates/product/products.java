@@ -6,6 +6,7 @@ import com.ClassroomFlipkart.database.comments.fetchComments;
 import com.ClassroomFlipkart.database.logIn.userLoggedIn;
 import com.ClassroomFlipkart.main.functions.getMotherboardSN;
 import com.ClassroomFlipkart.main.templates.category.itemsByCategory;
+import com.ClassroomFlipkart.main.templates.checkout.checkoutDetails;
 import com.ClassroomFlipkart.main.templates.home.profile;
 import com.ClassroomFlipkart.main.windows.home.main;
 import com.ClassroomFlipkart.database.seller.getPincodeStatus;
@@ -31,6 +32,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Popup;
+
+import static com.ClassroomFlipkart.main.templates.home.profile.centerPane;
 
 public class products {
 
@@ -85,18 +88,21 @@ public class products {
             else
                 status = updateItemQuantity.update(response[2],productId,previousQuantity+1);
 
-            Label statuslabel;
-            if (status.equals("success"))
-                statuslabel = new Label("ADDED TO CART SUCCESSFULLY !!");
-            else
-                statuslabel = new Label("FAILED TO ADD TO CART !!");
-
+            Label statuslabel = new Label();
             statuslabel.setFont(Font.font("Open Sans", FontWeight.SEMI_BOLD, 14));
             statuslabel.setTextFill(Color.web("#fff"));
 
             BorderPane added = new BorderPane(statuslabel);
-            added.setStyle("-fx-background-color: #222;");
             added.setPadding(new Insets(15));
+
+            if (status.equals("success")){
+                statuslabel.setText("ADDED TO CART SUCCESSFULLY !!");
+                added.setStyle("-fx-background-color: #222;");
+            }
+            else{
+                statuslabel.setText("FAILED TO ADD TO CART !!");
+                added.setStyle("-fx-background-color: #ff4040;");
+            }
 
             final Popup popup = new Popup();
             popup.setX(main.window.getX()+0.5*main.window.getWidth()-120);
@@ -132,6 +138,52 @@ public class products {
         buyNow.setCursor(Cursor.HAND);
         buyNow.setPrefWidth(0.14* main.window.getWidth());
         main.window.widthProperty().addListener(e-> buyNow.setPrefWidth(0.14*main.window.getWidth()));
+        buyNow.setOnAction(e-> {
+
+            String userID = getMotherboardSN.getMotherboardSN();
+            String[] response = userLoggedIn.userLoggedIn(userID);
+            int previousQuantity = fetchItemQuantity.getItems(response[2],productId);
+
+            String status;
+            if (previousQuantity==0)
+                status = addItem.add(response[2],productId);
+            else
+                status = updateItemQuantity.update(response[2],productId,previousQuantity+1);
+
+            if (status.equals("success")){
+                centerPane.setCenter(checkoutDetails.checkout(response[2]));
+            }
+            else{
+                Label statuslabel = new Label("FAILED TO ADD TO CART !!");
+                statuslabel.setFont(Font.font("Open Sans", FontWeight.SEMI_BOLD, 14));
+                statuslabel.setTextFill(Color.web("#fff"));
+
+                BorderPane added = new BorderPane(statuslabel);
+                added.setStyle("-fx-background-color: #ff4040;");
+                added.setPadding(new Insets(15));
+
+                final Popup popup = new Popup();
+                popup.setX(main.window.getX()+0.5*main.window.getWidth()-120);
+                popup.setY(main.window.getY()+ main.window.getHeight() - 80);
+                popup.getContent().add(added);
+                popup.show(main.window);
+
+                Task<Void> sleeper = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                };
+                sleeper.setOnSucceeded(event-> popup.hide());
+                new Thread(sleeper).start();
+            }
+
+        });
 
         BorderPane cartOption = new BorderPane(null,null,buyNow,null,addToCart);
         cartOption.setPadding(new Insets(10,5,5,5));
@@ -160,7 +212,7 @@ public class products {
         subcategoryLabel.setPadding(new Insets(4,0,6,5));
         subcategoryLabel.setMaxWidth(200);
         subcategoryLabel.setCursor(Cursor.HAND);
-        subcategoryLabel.setOnMouseClicked(e-> profile.centerPane.setCenter(itemsByCategory.category(category, subcategory)));
+        subcategoryLabel.setOnMouseClicked(e-> centerPane.setCenter(itemsByCategory.category(category, subcategory)));
 
         Label productNameLabel = new Label(productName);
         productNameLabel.setFont(new Font("Open Sans", 15));

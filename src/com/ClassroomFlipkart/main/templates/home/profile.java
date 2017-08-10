@@ -89,8 +89,8 @@ public class profile {
         mailSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             if(!whitespacevalidate(newValue))
                 centerPane.setCenter(searchByKeyword.search(newValue));
-            else
-                centerPane.setCenter(homeProducts.homeProducts());
+//            else                          //this slows down typing. Uncomment and check. Even above if is also slowing
+//                centerPane.setCenter(homeProducts.homeProducts());
         });
 
         Label cart = GlyphsDude.createIconLabel(FontAwesomeIcon.SHOPPING_CART,"","30","0",ContentDisplay.CENTER);
@@ -112,7 +112,7 @@ public class profile {
         items.setAlignment(Pos.TOP_CENTER);
         items.setPadding(new Insets(-2,0,0,-8));
         items.setCursor(Cursor.HAND);
-        items.setOnMouseClicked(e-> centerPane.setCenter(checkoutDetails.checkout()) );
+        items.setOnMouseClicked(e-> centerPane.setCenter(checkoutDetails.checkout(emailId)) );
 
         Label name = new Label("Hi "+completeName);
         name.setFont(new Font("Open Sans", 15));
@@ -127,7 +127,7 @@ public class profile {
         orders.setOnAction(e-> centerPane.setCenter(myOrders.orders()));
 
         MenuItem account = new MenuItem( "Your Account");
-        account.setOnAction(e-> centerPane.setCenter(myAccount.account()));
+//        account.setOnAction(e-> centerPane.setCenter(myAccount.account()));
 
         MenuItem signOut = new MenuItem( "Log Out");
         signOut.setOnAction(e-> {

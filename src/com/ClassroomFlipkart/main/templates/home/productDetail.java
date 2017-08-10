@@ -7,6 +7,7 @@ import com.ClassroomFlipkart.database.logIn.userLoggedIn;
 import com.ClassroomFlipkart.main.functions.getMotherboardSN;
 import com.ClassroomFlipkart.main.windows.home.main;
 import com.ClassroomFlipkart.main.templates.product.products;
+
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.concurrent.Task;
@@ -67,8 +68,8 @@ public class productDetail {
         newP.setFont(Font.font("Open Sans",FontWeight.SEMI_BOLD ,14.5));
 
         Label off = new Label((int)(100*(1.0 - Double.parseDouble(newPrice)/Double.parseDouble(oldPrice)))+"% off");
-        off.setPadding(new Insets(0,5,0,5));
-        off.setFont(Font.font("Open Sans", 13.5));
+        off.setPadding(new Insets(2,5,0,5));
+        off.setFont(Font.font("Open Sans", 13));
         off.setTextFill(Color.web("#388e3c"));
 
         Button addToCart = GlyphsDude.createIconButton(
