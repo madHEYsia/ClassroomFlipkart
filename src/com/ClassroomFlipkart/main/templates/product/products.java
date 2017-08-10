@@ -109,7 +109,7 @@ public class products {
         subcategoryLabel.setPadding(new Insets(4,0,6,5));
         subcategoryLabel.setMaxWidth(200);
         subcategoryLabel.setCursor(Cursor.HAND);
-        subcategoryLabel.setOnMouseClicked(e-> profile.centerPane.setCenter(itemsByCategory.category(subcategory)));
+        subcategoryLabel.setOnMouseClicked(e-> profile.centerPane.setCenter(itemsByCategory.category(category, subcategory)));
 
         Label productNameLabel = new Label(productName);
         productNameLabel.setFont(new Font("Open Sans", 15));

@@ -155,7 +155,7 @@ public class profile {
             for (String subCategory : subCategories) {
                 MenuItem subcateory = new MenuItem( subCategory);
                 subcateory.setOnAction(e->
-                        profile.centerPane.setCenter(itemsByCategory.category(subCategory))
+                        profile.centerPane.setCenter(itemsByCategory.category(category, subCategory))
                 );
                 categoryType.getItems().add(subcateory);
             }

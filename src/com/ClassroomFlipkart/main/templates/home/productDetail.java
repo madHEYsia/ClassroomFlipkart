@@ -26,9 +26,9 @@ public class productDetail {
         name.setPadding(new Insets(7,0,7,0));
         name.setFont(Font.font("Open Sans", 15));
         name.setAlignment(Pos.TOP_CENTER);
+        name.setWrapText(true);
         name.setPrefWidth(0.15*main.window.getWidth());
         main.window.widthProperty().addListener(e-> name.setPrefWidth(0.15*main.window.getWidth()));
-        name.setWrapText(true);
 
         Label newP = new Label("₹ "+newPrice);
         newP.setPadding(new Insets(0,5,0,5));
@@ -45,7 +45,7 @@ public class productDetail {
                 null);
         pro.setPadding(new Insets(5));
         pro.setCursor(Cursor.HAND);
-        pro.setPrefHeight(200);
+        pro.setPrefHeight(250);
         pro.setOnMouseEntered(e-> imgView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);") );
         pro.setOnMouseExited(e-> imgView.setStyle("") );
         pro.setOnMouseClicked(e->
