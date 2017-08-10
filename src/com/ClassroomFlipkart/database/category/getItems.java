@@ -19,7 +19,7 @@ import java.sql.ResultSet;
 
 public class getItems {
 
-    public static BorderPane getItems(String category, String subcategory,double minmimum, double maximum) {
+    public static BorderPane getItems(String category, String subcategory,double minmimum, double maximum, double discount) {
 
         BorderPane catProduct = new BorderPane();
 
@@ -30,10 +30,17 @@ public class getItems {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String query = DBUtils.prepareSelectQuery(" * ",
-                " classroomflipkart.productdetail ",
-                "category = '"+category.replaceAll("'","`")+"' AND subcategory = '"+subcategory.replaceAll("'","`")+"' " +
-                        "AND newPrice >= "+minmimum+" AND newPrice <= "+maximum+" ");
+        String query = DBUtils.prepareSelectQuery(
+                " * ",
+                " classroomflipkart.productdetail AS T , " +
+                        "( "+DBUtils.prepareSelectQuery(
+                                " productId, 100-100*newPrice/oldPrice  AS discount ",
+                                " classroomflipkart.productdetail ",
+                                "category = '"+category.replaceAll("'","`")+"' AND subcategory = '"+subcategory.replaceAll("'","`")+"' " +
+                                        "AND newPrice >= "+minmimum+" AND newPrice <= "+maximum)+" "+
+                        ") AS S",
+                " T.productId = S.productId AND S.discount > "+discount
+                );
 
         try {
             con = DBUtils.getConnection();
@@ -43,12 +50,16 @@ public class getItems {
             rs.last();
             int size = rs.getRow();
 
+            Label title = new Label(subcategory+"");
+            title.setFont(Font.font("Open Sans", FontWeight.BOLD,20));
+            title.setPadding(new Insets(10));
+
+            StackPane titlePane = new StackPane(title);
+            titlePane.setAlignment(Pos.TOP_LEFT);
+            catProduct.setTop(titlePane);
+
             if (size>0){
                 rs.beforeFirst();
-
-                Label title = new Label(subcategory+"");
-                title.setFont(Font.font("Open Sans", FontWeight.BOLD,20));
-                title.setPadding(new Insets(10));
 
                 HBox productList = new HBox(20);
                 productList.setAlignment(Pos.TOP_CENTER);
@@ -80,18 +91,16 @@ public class getItems {
                 proScroller.setPannable(true);
                 proScroller.setPadding(new Insets(0,0,30,0));
 
-                StackPane titlePane = new StackPane(title);
-                titlePane.setAlignment(Pos.TOP_LEFT);
-
                 StackPane productPane = new StackPane(proScroller);
 
-                catProduct.setTop(titlePane);
                 catProduct.setCenter(productPane);
             }
             else {
-                Label noResult = new Label("No product found in range "+ minmimum+" - "+maximum);
+                Label noResult = new Label("Sorry, No products found.");
                 noResult.setFont(Font.font("Open Sans", FontWeight.BOLD,20));
                 noResult.setPadding(new Insets(10));
+
+                catProduct.setCenter(noResult);
             }
 
         } catch (Exception e) {
