@@ -9,6 +9,7 @@ import com.ClassroomFlipkart.main.templates.checkout.checkoutDetails;
 import com.ClassroomFlipkart.main.templates.orders.myOrders;
 import com.ClassroomFlipkart.database.signIn.userSignOut;
 import com.ClassroomFlipkart.database.cart.*;
+import com.ClassroomFlipkart.database.search.searchByKeyword;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -86,12 +87,10 @@ public class profile {
         });
 
         mailSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!whitespacevalidate(newValue)) {
-//                if (myComboBox.getValue().equals("Sort by Latest"))
-//                    centerPane.setCenter(searchForThread.search(newValue, emailId, "ORDER BY messageTimestamp desc"));
-//                else if (myComboBox.getValue().equals("Sort by Oldest"))
-//                    centerPane.setCenter(searchForThread.search(newValue, emailId, "ORDER BY messageTimestamp asc"));
-            }
+            if(!whitespacevalidate(newValue))
+                centerPane.setCenter(searchByKeyword.search(newValue));
+            else
+                centerPane.setCenter(homeProducts.homeProducts());
         });
 
         Label cart = GlyphsDude.createIconLabel(FontAwesomeIcon.SHOPPING_CART,"","30","0",ContentDisplay.CENTER);

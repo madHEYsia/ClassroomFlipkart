@@ -1,8 +1,7 @@
-package com.ClassroomFlipkart.database.category;
+package com.ClassroomFlipkart.database.search;
 
 import com.ClassroomFlipkart.database.utils.DBUtils;
 import com.ClassroomFlipkart.main.templates.home.productDetail;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -18,9 +17,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class getItems {
+public class searchByKeyword {
 
-    public static BorderPane getItems(String category, String subcategory,double minmimum, double maximum, double discount) {
+    public static BorderPane search(String keyword) {
 
         BorderPane catProduct = new BorderPane();
 
@@ -33,15 +32,9 @@ public class getItems {
 
         String query = DBUtils.prepareSelectQuery(
                 " * ",
-                " classroomflipkart.productdetail AS T , " +
-                        "( "+DBUtils.prepareSelectQuery(
-                                " productId, 100-100*newPrice/oldPrice  AS discount ",
-                                " classroomflipkart.productdetail ",
-                                "category = '"+category.replaceAll("'","`")+"' AND subcategory = '"+subcategory.replaceAll("'","`")+"' " +
-                                        "AND newPrice >= "+minmimum+" AND newPrice <= "+maximum)+" "+
-                        ") AS S",
-                " T.productId = S.productId AND S.discount > "+discount
-                );
+                " classroomflipkart.productdetail ",
+                "productName LIKE '%"+keyword+"%' OR category LIKE '%"+keyword+"%' OR subcategory LIKE '%"+keyword+"%'"
+        );
 
         try {
             con = DBUtils.getConnection();
@@ -51,7 +44,7 @@ public class getItems {
             rs.last();
             int size = rs.getRow();
 
-            Label title = new Label(subcategory+"");
+            Label title = new Label("Search Results");
             title.setFont(Font.font("Open Sans", FontWeight.BOLD,20));
             title.setPadding(new Insets(10));
 
@@ -72,9 +65,11 @@ public class getItems {
                     String newPrice = rs.getString("newPrice");
                     String oldPrice = rs.getString("oldPrice");
                     String imageName = rs.getString("imageName");
+                    String category = rs.getString("category");
+                    String subcategory = rs.getString("subcategory");
                     String productAvailability = rs.getString("productAvailability");
 
-                    if (count++ % 4 == 0){
+                    if (count++ % 5 == 0){
                         products.getChildren().add(productList);
                         productList= new HBox(20);
                     }
