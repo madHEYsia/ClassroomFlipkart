@@ -8,30 +8,30 @@ import java.sql.ResultSet;
 
 public class getItemsInCart {
 
-    public static int getItems(int cartId) {
+    public static int getItems(String emailId) {
+
+        int items = 0;
 
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String query = DBUtils.prepareSelectQuery(" SUM(quantity) ",
+        String query = DBUtils.prepareSelectQuery(" COUNT(productId) as items ",
                 " classroomflipkart.cartdetails ",
-                "cartId='"+cartId+"'");
+                " emailId = '"+emailId+"' ");
 
         try {
             con = DBUtils.getConnection();
             stmt = con.prepareStatement(query);
             rs = stmt.executeQuery();
-
-            rs.last();
-            return rs.getRow();
-
-
+            rs.next();
+            items = Integer.parseInt(rs.getString("items"));
         } catch (Exception e) {
+            items = 0;
             e.printStackTrace();
         } finally {
             DBUtils.closeAll(rs, stmt, con);
-            return 0;
+            return items;
         }
     }
 

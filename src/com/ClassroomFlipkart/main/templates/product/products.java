@@ -1,6 +1,10 @@
 package com.ClassroomFlipkart.main.templates.product;
 
+import com.ClassroomFlipkart.database.cart.addItem;
+import com.ClassroomFlipkart.database.cart.updateItemQuantity;
 import com.ClassroomFlipkart.database.comments.fetchComments;
+import com.ClassroomFlipkart.database.logIn.userLoggedIn;
+import com.ClassroomFlipkart.main.functions.getMotherboardSN;
 import com.ClassroomFlipkart.main.templates.category.itemsByCategory;
 import com.ClassroomFlipkart.main.templates.home.profile;
 import com.ClassroomFlipkart.main.windows.home.main;
@@ -8,9 +12,11 @@ import com.ClassroomFlipkart.database.seller.getPincodeStatus;
 import com.ClassroomFlipkart.database.seller.getSellerId;
 import com.ClassroomFlipkart.database.seller.getSellerDetails;
 import com.ClassroomFlipkart.database.comments.getAvgRating;
+import com.ClassroomFlipkart.database.cart.fetchItemQuantity;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -24,6 +30,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Popup;
 
 public class products {
 
@@ -42,7 +49,6 @@ public class products {
             availablity.setStyle("-fx-background-color: #2874f0");
         else
             availablity.setStyle("-fx-background-color: #ff4040");
-
 
         String imageURL = profile.class.getResource("../../resources/images/large/"+imageName).toExternalForm();
         Image img = new Image(imageURL);
@@ -67,6 +73,51 @@ public class products {
         addToCart.setCursor(Cursor.HAND);
         addToCart.setPrefWidth(0.14* main.window.getWidth());
         main.window.widthProperty().addListener(e-> addToCart.setPrefWidth(0.14*main.window.getWidth()));
+        addToCart.setOnAction(e-> {
+
+            String userID = getMotherboardSN.getMotherboardSN();
+            String[] response = userLoggedIn.userLoggedIn(userID);
+            int previousQuantity = fetchItemQuantity.getItems(response[2],productId);
+
+            String status;
+            if (previousQuantity==0)
+                status = addItem.add(response[2],productId);
+            else
+                status = updateItemQuantity.update(response[2],productId,previousQuantity+1);
+
+            Label statuslabel;
+            if (status.equals("success"))
+                statuslabel = new Label("ADDED TO CART SUCCESSFULLY !!");
+            else
+                statuslabel = new Label("FAILED TO ADD TO CART !!");
+
+            statuslabel.setFont(Font.font("Open Sans", FontWeight.SEMI_BOLD, 14));
+            statuslabel.setTextFill(Color.web("#fff"));
+
+            BorderPane added = new BorderPane(statuslabel);
+            added.setStyle("-fx-background-color: #222;");
+            added.setPadding(new Insets(15));
+
+            final Popup popup = new Popup();
+            popup.setX(main.window.getX()+0.5*main.window.getWidth()-120);
+            popup.setY(main.window.getY()+ main.window.getHeight() - 80);
+            popup.getContent().add(added);
+            popup.show(main.window);
+
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            };
+            sleeper.setOnSucceeded(event-> popup.hide());
+            new Thread(sleeper).start();
+        });
 
         Button buyNow = GlyphsDude.createIconButton(
                 FontAwesomeIcon.FORWARD,

@@ -6,32 +6,38 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class getCartId {
+public class fetchItemQuantity {
 
-    public static int getId(String emailId) {
+    public static int getItems(String emailId, String productId) {
+
+        int items = 0;
 
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String query = DBUtils.prepareSelectQuery(" cartId ",
-                " classroomflipkart.usercart ",
-                "emailId = '"+emailId+"' ");
+        String query = DBUtils.prepareSelectQuery(" quantity ",
+                " classroomflipkart.cartdetails ",
+                " emailId = '"+emailId+"' AND productId = '"+productId+"'");
 
         try {
             con = DBUtils.getConnection();
             stmt = con.prepareStatement(query);
             rs = stmt.executeQuery();
 
-            rs.last();
-            return rs.getRow();
-
+            rs.next();
+            if (rs.getRow()>0)
+                items = Integer.parseInt(rs.getString("quantity"));
+            else
+                items = 0;
         } catch (Exception e) {
+            items = 0;
             e.printStackTrace();
         } finally {
             DBUtils.closeAll(rs, stmt, con);
-            return 0;
+            return items;
         }
     }
+
 
 }

@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 public class profile {
 
     public static Label itemsInCart;
-
+    public static TextField mailSearch;
     public static Scene scene;
     public static BorderPane topPane ;
     public static BorderPane centerPane ;
@@ -73,7 +73,7 @@ public class profile {
         leftTitle.setCursor(Cursor.HAND);
         leftTitle.setOnMouseClicked(e-> centerPane.setCenter(homeProducts.homeProducts()));
 
-        TextField mailSearch = new TextField();
+        mailSearch = new TextField();
         mailSearch.setPromptText("Search for Products, Category, Seller and More");
         mailSearch.setFont(new Font("Open Sans", 15));
         mailSearch.setPrefHeight(20);
@@ -101,7 +101,7 @@ public class profile {
         notification.setFont(new Font("Open Sans", 0));
         notification.setStyle("-fx-border-color: red; -fx-border-width : 12; -fx-border-radius: 100");
 
-        int cartNumber = getItemsInCart.getItems(getCartId.getId(emailId));
+        int cartNumber = getItemsInCart.getItems(emailId);
         itemsInCart = new Label(cartNumber+"");
         itemsInCart.setFont(Font.font("Open Sans", FontWeight.BOLD, 12));
         itemsInCart.setTextFill(Color.web("#fff"));
