@@ -10,11 +10,10 @@ import com.ClassroomFlipkart.main.templates.product.products;
 import com.ClassroomFlipkart.main.windows.home.main;
 import com.ClassroomFlipkart.database.cart.removeItem;
 
-import static com.ClassroomFlipkart.database.checkout.fetchitems.cartProduct;
-import static com.ClassroomFlipkart.database.checkout.fetchitems.size;
-import static com.ClassroomFlipkart.database.checkout.fetchitems.title;
-import static com.ClassroomFlipkart.main.templates.home.profile.centerPane;
-import static com.ClassroomFlipkart.main.templates.home.profile.itemsInCart;
+import static com.ClassroomFlipkart.database.checkout.fetchitems.*;
+import static com.ClassroomFlipkart.database.checkout.fetchitems.pay;
+import static com.ClassroomFlipkart.database.checkout.fetchitems.price;
+import static com.ClassroomFlipkart.main.templates.home.profile.*;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -97,6 +96,11 @@ public class itemDetail {
         String[] response = userLoggedIn.userLoggedIn(userID);
         final int[] currentQuantity = {fetchItemQuantity.getItems(response[2], productId)};
 
+        priceOfItem = priceOfItem + currentQuantity[0]*Integer.parseInt(newPrice);
+        amountToPay = amountToPay + currentQuantity[0]*Integer.parseInt(newPrice);
+        savingAmount = savingAmount + currentQuantity[0]*(Integer.parseInt(oldPrice)-Integer.parseInt(newPrice));
+        updateCharges(priceOfItem,amountToPay,savingAmount);
+
         Button decrement = GlyphsDude.createIconButton(
                 FontAwesomeIcon.MINUS_CIRCLE,
                 "",
@@ -129,19 +133,40 @@ public class itemDetail {
             currentQuantity[0] = currentQuantity[0] + 1;
             updateItemQuantity.update(response[2], productId, currentQuantity[0]);
             quantity.setText(currentQuantity[0] + "");
+
+            priceOfItem = priceOfItem + Integer.parseInt(newPrice);
+            amountToPay = amountToPay + Integer.parseInt(newPrice);
+            savingAmount = savingAmount + Integer.parseInt(oldPrice)-Integer.parseInt(newPrice);
+            updateCharges(priceOfItem,amountToPay,savingAmount);
+
+            if (currentQuantity[0]==9)
+                decrement.setDisable(true);
         });
 
         decrement.setOnAction(event -> {
             currentQuantity[0] = currentQuantity[0] - 1;
             updateItemQuantity.update(response[2],productId, currentQuantity[0]);
             quantity.setText(currentQuantity[0]+"");
+
+            priceOfItem = priceOfItem - Integer.parseInt(newPrice);
+            amountToPay = amountToPay - Integer.parseInt(newPrice);
+            savingAmount = savingAmount - (Integer.parseInt(oldPrice)-Integer.parseInt(newPrice));
+            updateCharges(priceOfItem,amountToPay,savingAmount);
+
             if (currentQuantity[0]==1)
                 decrement.setDisable(true);
         });
         quantity.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
+            if (!newValue.matches("\\d*"))
                 quantity.setText(newValue.replaceAll("[^\\d]", ""));
-            }
+            if (newValue.length() > 1)
+                newValue = newValue.substring(0,1);
+
+            priceOfItem = priceOfItem - (Integer.parseInt(oldValue)-Integer.parseInt(newValue))*Integer.parseInt(newPrice);
+            amountToPay = amountToPay - (Integer.parseInt(oldValue)-Integer.parseInt(newValue))*Integer.parseInt(newPrice);
+            savingAmount = savingAmount - (Integer.parseInt(oldValue)-Integer.parseInt(newValue))*(Integer.parseInt(oldPrice)-Integer.parseInt(newPrice));
+            updateCharges(priceOfItem,amountToPay,savingAmount);
+
         });
 
         HBox hbquantity = new HBox(10,decrement,quantity,increment);
@@ -159,7 +184,19 @@ public class itemDetail {
             size = size-1;
             title.setText("MY CART ( "+ size+" )");
             itemsInCart.setText(size+"");
+
+            if(size==1)
+                priceItem.setText("Price ( "+size+" item ) : ");
+            else
+                priceItem.setText("Price ( "+size+" items ) : ");
+
             removeItem.remove(response[2],productId);
+
+            priceOfItem = priceOfItem - currentQuantity[0]*Integer.parseInt(newPrice);
+            amountToPay = amountToPay - currentQuantity[0]*Integer.parseInt(newPrice);
+            savingAmount = savingAmount - currentQuantity[0]*(Integer.parseInt(oldPrice)-Integer.parseInt(newPrice));
+            updateCharges(priceOfItem,amountToPay,savingAmount);
+
             if (size==0){
 
                 Label noResult = new Label("Your Shopping Cart is empty");
@@ -167,21 +204,32 @@ public class itemDetail {
                 noResult.setPadding(new Insets(10));
 
                 Button continueShopping = GlyphsDude.createIconButton(
-                        FontAwesomeIcon.STEP_BACKWARD,
+                        FontAwesomeIcon.BACKWARD,
                         "CONTINUE SHOPPING",
                         "18",
                         "16",
                         ContentDisplay.LEFT);
-                continueShopping.setFont(Font.font("Open Sans", FontWeight.SEMI_BOLD,16));
+                continueShopping.setFont(Font.font("Open Sans", FontWeight.BOLD,15));
                 continueShopping.setAlignment(Pos.CENTER);
-                continueShopping.setStyle("-fx-background-color: grey");
+                continueShopping.setTextFill(Paint.valueOf("#fff"));
+                continueShopping.setStyle("-fx-background-color: grey;");
                 continueShopping.setPadding(new Insets(10));
                 continueShopping.setCursor(Cursor.HAND);
                 continueShopping.setPrefWidth(200);
                 continueShopping.setOnAction(event-> centerPane.setCenter(homeProducts.homeProducts()));
 
+                String emptyCart = profile.class.getResource("../../resources/images/emptyCart.png").toExternalForm();
+                Image emptyCartimg = new Image(emptyCart);
+                ImageView emptyCartimgView = new ImageView(emptyCartimg);
+                emptyCartimgView.setPreserveRatio(true);
+                emptyCartimgView.setFitWidth(0.4* main.window.getWidth());
+                main.window.widthProperty().addListener(event-> emptyCartimgView.setFitWidth(0.4 * main.window.getWidth()));
+
                 cartProduct.getChildren().clear();
-                cartProduct.setCenter(new VBox(30,noResult,continueShopping));
+                VBox emptyCartVB = new VBox(20,emptyCartimgView,noResult,continueShopping);
+                emptyCartVB.setPadding(new Insets(20,0,0,0));
+                emptyCartVB.setAlignment(Pos.TOP_CENTER);
+                cartProduct.setCenter(emptyCartVB);
             }
         });
 
@@ -201,6 +249,13 @@ public class itemDetail {
         pro[0].setTop(cartItem);
 
         return pro[0];
+    }
+
+    public static void updateCharges(int priceItem, int payAmount, int save){
+        price.setText("₹ "+priceItem);
+        pay.setText("₹ "+payAmount);
+        saving.setText("Your Total Savings on this order ₹ "+save);
+
     }
 
 }

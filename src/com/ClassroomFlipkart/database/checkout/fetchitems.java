@@ -3,7 +3,11 @@ package com.ClassroomFlipkart.database.checkout;
 import com.ClassroomFlipkart.database.utils.DBUtils;
 import com.ClassroomFlipkart.main.templates.checkout.itemDetail;
 import com.ClassroomFlipkart.main.templates.home.homeProducts;
+import com.ClassroomFlipkart.main.templates.home.profile;
 import com.ClassroomFlipkart.main.windows.home.main;
+
+import static com.ClassroomFlipkart.main.templates.home.profile.centerPane;
+
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.geometry.Insets;
@@ -13,6 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -25,17 +31,88 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import static com.ClassroomFlipkart.main.templates.home.profile.centerPane;
-
 public class fetchitems {
 
-    public static Label title;
     public static int size;
+    public static int priceOfItem=0;
+    public static int amountToPay=0;
+    public static int savingAmount=0;
+
+    public static Label title;
+    public static Label priceItem;
+    public static Label price;
+    public static Label pay;
+    public static Label saving;
+
     public static BorderPane cartProduct;
 
     public static BorderPane itemList(String emailId) {
 
         cartProduct = new BorderPane();
+
+        Label priceTitle = new Label("PRICE DETAILS");
+        priceTitle.setFont(Font.font("Open Sans", FontWeight.BOLD, 18));
+        priceTitle.setStyle("-fx-background-color: #2874f0");
+        priceTitle.setPrefWidth(300);
+        priceTitle.setTextFill(Paint.valueOf("#fff"));
+        priceTitle.setPadding(new Insets(10,10,10,30));
+
+        priceItem = new Label();
+        priceItem.setFont(Font.font("Open Sans", 15));
+        priceItem.setPadding(new Insets(15,5,5,30));
+
+        price = new Label("₹ "+priceOfItem);
+        price.setFont(Font.font("Open Sans", 15));
+        price.setPadding(new Insets(15,20,5,30));
+
+        BorderPane pricePane = new BorderPane(null,null,price,null,priceItem);
+
+        Label deliveryCharges = new Label("Delivery Charges :");
+        deliveryCharges.setFont(Font.font("Open Sans", 15));
+        deliveryCharges.setPadding(new Insets(5,5,5,30));
+
+        Label charges = new Label(" FREE ");            //curently its free. Need to change this.
+        charges.setFont(Font.font("Open Sans", 15));
+        charges.setPadding(new Insets(5,20,5,30));
+
+        BorderPane deliveryPane = new BorderPane(null,null,charges,null,deliveryCharges);
+        deliveryPane.setStyle("-fx-border-color: #c2c2c2; -fx-border-width: 0 0 1 0");
+
+        Label amountPayable = new Label("Amount Payable:");
+        amountPayable.setFont(Font.font("Open Sans", FontWeight.BOLD, 18));
+        amountPayable.setPadding(new Insets(10,10,10,30));
+
+        pay = new Label("₹ "+amountToPay);
+        pay.setFont(Font.font("Open Sans", FontWeight.BOLD, 18));
+        pay.setPadding(new Insets(5,20,5,30));
+
+        BorderPane amountPayablePane = new BorderPane(null,null,pay,null,amountPayable);
+        amountPayablePane.setStyle("-fx-border-color: #c2c2c2; -fx-border-width: 0 0 1 0");
+
+        saving = new Label("Your Total Savings on this order ₹ "+savingAmount);
+        saving.setFont(Font.font("Open Sans", 15));
+        saving.setPrefWidth(300);
+        saving.setTextFill(Paint.valueOf("green"));
+        saving.setWrapText(true);
+        saving.setPadding(new Insets(10,10,30,30));
+
+        Label address = new Label("ADDRESS SAVED ");
+        address.setFont(Font.font("Open Sans", FontWeight.BOLD, 18));
+        address.setStyle("-fx-background-color: #2874f0");
+        address.setPrefWidth(300);
+        address.setTextFill(Paint.valueOf("#fff"));
+        address.setPadding(new Insets(10,10,10,30));
+
+        VBox rightVB = new VBox(0,
+                priceTitle,
+                pricePane,
+                deliveryPane,
+                amountPayablePane,
+                saving,
+                address
+        );
+        rightVB.setPrefSize(300,500);
+        rightVB.setPadding(new Insets(-40,30,0,0));
 
         VBox products = new VBox(0);
         products.setPadding(new Insets(10,10,10,30));
@@ -62,6 +139,11 @@ public class fetchitems {
 
             rs.last();
             size = rs.getRow();
+
+            if(size==1)
+                priceItem.setText("Price ( "+size+" item ) : ");
+            else
+                priceItem.setText("Price ( "+size+" items ) : ");
 
             title = new Label("MY CART ( "+size+" )");
             title.setFont(Font.font("Open Sans", FontWeight.BOLD,20));
@@ -132,13 +214,40 @@ public class fetchitems {
                 main.window.widthProperty().addListener(e-> leftVB.setPrefWidth(0.6* main.window.getWidth()));
 
                 cartProduct.setLeft(leftVB);
+                cartProduct.setRight(rightVB);
             }
             else {
-                Label noResult = new Label("Your Cart is empty");
+
+                Label noResult = new Label("Your Shopping Cart is empty");
                 noResult.setFont(Font.font("Open Sans", FontWeight.BOLD,20));
                 noResult.setPadding(new Insets(10));
 
-                cartProduct.setCenter(noResult);
+                Button continueShopping = GlyphsDude.createIconButton(
+                        FontAwesomeIcon.BACKWARD,
+                        "CONTINUE SHOPPING",
+                        "18",
+                        "16",
+                        ContentDisplay.LEFT);
+                continueShopping.setFont(Font.font("Open Sans", FontWeight.SEMI_BOLD,16));
+                continueShopping.setAlignment(Pos.CENTER);
+                continueShopping.setStyle("-fx-background-color: grey");
+                continueShopping.setPadding(new Insets(10));
+                continueShopping.setCursor(Cursor.HAND);
+                continueShopping.setPrefWidth(200);
+                continueShopping.setOnAction(event-> centerPane.setCenter(homeProducts.homeProducts()));
+
+                String emptyCart = profile.class.getResource("../../resources/images/emptyCart.png").toExternalForm();
+                Image emptyCartimg = new Image(emptyCart);
+                ImageView emptyCartimgView = new ImageView(emptyCartimg);
+                emptyCartimgView.setPreserveRatio(true);
+                emptyCartimgView.setFitWidth(0.4* main.window.getWidth());
+                main.window.widthProperty().addListener(event-> emptyCartimgView.setFitWidth(0.4 * main.window.getWidth()));
+
+                cartProduct.getChildren().clear();
+                VBox emptyCartVB = new VBox(20,emptyCartimgView,noResult,continueShopping);
+                emptyCartVB.setPadding(new Insets(20,0,0,0));
+                emptyCartVB.setAlignment(Pos.TOP_CENTER);
+                cartProduct.setCenter(emptyCartVB);
             }
 
         } catch (Exception e) {
