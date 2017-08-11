@@ -6,7 +6,7 @@ import com.ClassroomFlipkart.database.comments.fetchComments;
 import com.ClassroomFlipkart.database.logIn.userLoggedIn;
 import com.ClassroomFlipkart.main.functions.getMotherboardSN;
 import com.ClassroomFlipkart.main.templates.category.itemsByCategory;
-import com.ClassroomFlipkart.main.templates.checkout.checkoutDetails;
+import com.ClassroomFlipkart.database.checkout.fetchitems;
 import com.ClassroomFlipkart.main.templates.home.profile;
 import com.ClassroomFlipkart.main.windows.home.main;
 import com.ClassroomFlipkart.database.seller.getPincodeStatus;
@@ -151,7 +151,7 @@ public class products {
                 status = updateItemQuantity.update(response[2],productId,previousQuantity+1);
 
             if (status.equals("success")){
-                centerPane.setCenter(checkoutDetails.checkout(response[2]));
+                centerPane.setCenter(fetchitems.itemList(response[2]));
             }
             else{
                 Label statuslabel = new Label("FAILED TO ADD TO CART !!");
@@ -270,6 +270,13 @@ public class products {
         pincode.setFont(Font.font("Open Sans",FontWeight.SEMI_BOLD, 14));
         pincode.setPromptText("Enter the Delivery Ccde");
         pincode.setStyle("-fx-background-color: transparent; -fx-text-fill-color: #222");
+        pincode.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*"))
+                newValue = newValue.replaceAll("[^\\d]", "");
+            if (newValue.length() > 6)
+                newValue = newValue.substring(0,6);
+            pincode.setText(newValue);
+        });
 
         Label sellerDeliveryCheck = new Label("CHECK");
         sellerDeliveryCheck.setFont(Font.font("Open Sans",FontWeight.SEMI_BOLD, 14));

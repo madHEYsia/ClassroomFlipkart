@@ -5,11 +5,12 @@ import com.ClassroomFlipkart.database.category.getSubCategories;
 import com.ClassroomFlipkart.main.templates.account.myAccount;
 import com.ClassroomFlipkart.main.templates.category.itemsByCategory;
 import com.ClassroomFlipkart.main.windows.home.main;
-import com.ClassroomFlipkart.main.templates.checkout.checkoutDetails;
+import com.ClassroomFlipkart.database.checkout.fetchitems;
 import com.ClassroomFlipkart.main.templates.orders.myOrders;
 import com.ClassroomFlipkart.database.signIn.userSignOut;
 import com.ClassroomFlipkart.database.cart.*;
 import com.ClassroomFlipkart.database.search.searchByKeyword;
+import com.ClassroomFlipkart.database.checkout.fetchitems;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -112,7 +113,7 @@ public class profile {
         items.setAlignment(Pos.TOP_CENTER);
         items.setPadding(new Insets(-2,0,0,-8));
         items.setCursor(Cursor.HAND);
-        items.setOnMouseClicked(e-> centerPane.setCenter(checkoutDetails.checkout(emailId)) );
+        items.setOnMouseClicked(e-> centerPane.setCenter(fetchitems.itemList(emailId)) );
 
         Label name = new Label("Hi "+completeName);
         name.setFont(new Font("Open Sans", 15));

@@ -1,15 +1,23 @@
 package com.ClassroomFlipkart.database.checkout;
 
 import com.ClassroomFlipkart.database.utils.DBUtils;
-import com.ClassroomFlipkart.main.templates.home.productDetail;
+import com.ClassroomFlipkart.main.templates.checkout.itemDetail;
+import com.ClassroomFlipkart.main.templates.home.homeProducts;
+import com.ClassroomFlipkart.main.windows.home.main;
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -17,14 +25,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import static com.ClassroomFlipkart.main.templates.home.profile.centerPane;
+
 public class fetchitems {
+
+    public static Label title;
+    public static int size;
+    public static BorderPane cartProduct;
 
     public static BorderPane itemList(String emailId) {
 
-        BorderPane cartProduct = new BorderPane();
+        cartProduct = new BorderPane();
 
-        VBox products = new VBox(15);
-        products.setPadding(new Insets(10,0,10,0));
+        VBox products = new VBox(0);
+        products.setPadding(new Insets(10,10,10,30));
+        products.setAlignment(Pos.TOP_LEFT);
 
         Connection con = null;
         PreparedStatement stmt = null;
@@ -46,11 +61,12 @@ public class fetchitems {
             rs = stmt.executeQuery();
 
             rs.last();
-            int size = rs.getRow();
+            size = rs.getRow();
 
-            Label title = new Label("MY CART");
+            title = new Label("MY CART ( "+size+" )");
             title.setFont(Font.font("Open Sans", FontWeight.BOLD,20));
-            title.setPadding(new Insets(10));
+            title.setPadding(new Insets(10,10,10,30));
+            title.setStyle("-fx-border-color: #c2c2c2; -fx-border-width: 0 0 2 0");
 
             StackPane titlePane = new StackPane(title);
             titlePane.setAlignment(Pos.TOP_LEFT);
@@ -59,10 +75,6 @@ public class fetchitems {
             if (size>0){
                 rs.beforeFirst();
 
-                HBox productList = new HBox(20);
-                productList.setAlignment(Pos.TOP_CENTER);
-
-                int count =0;
                 while (rs.next()) {
                     String productId = rs.getString("productId");
                     String productName = rs.getString("productName");
@@ -73,17 +85,9 @@ public class fetchitems {
                     String imageName = rs.getString("imageName");
                     String productAvailability = rs.getString("productAvailability");
 
-                    if (count++ % 4 == 0){
-                        products.getChildren().add(productList);
-                        productList= new HBox(20);
-                    }
+                    products.getChildren().add(itemDetail.view(productId, productName, newPrice, oldPrice, category, subcategory, imageName, productAvailability));
 
-                    productList.setAlignment(Pos.TOP_CENTER);
-
-                    productList.getChildren().add(productDetail.productByType(productId,productName,newPrice,oldPrice,category,subcategory,imageName, productAvailability));
                 }
-
-                products.getChildren().add(productList);
 
                 ScrollPane proScroller = new ScrollPane(products);
                 proScroller.setFitToHeight(true);
@@ -93,7 +97,41 @@ public class fetchitems {
 
                 StackPane productPane = new StackPane(proScroller);
 
-                cartProduct.setCenter(productPane);
+                Button continueShopping = GlyphsDude.createIconButton(
+                        FontAwesomeIcon.STEP_BACKWARD,
+                        "CONTINUE SHOPPING",
+                        "16",
+                        "16",
+                        ContentDisplay.LEFT);
+                continueShopping.setFont(Font.font("Open Sans", FontWeight.BOLD,15));
+                continueShopping.setAlignment(Pos.CENTER);
+                continueShopping.setTextFill(Paint.valueOf("#fff"));
+                continueShopping.setStyle("-fx-background-color: lightgrey");
+                continueShopping.setPadding(new Insets(10));
+                continueShopping.setCursor(Cursor.HAND);
+                continueShopping.setPrefWidth(200);
+                continueShopping.setOnAction(event-> centerPane.setCenter(homeProducts.homeProducts()));
+
+                Button placeOrder = new Button("PLACE ORDER");
+                placeOrder.setFont(Font.font("Open Sans", FontWeight.BOLD,15));
+                placeOrder.setAlignment(Pos.CENTER);
+                placeOrder.setTextFill(Paint.valueOf("#fff"));
+                placeOrder.setStyle("-fx-background-color: #fb641b");
+                placeOrder.setPadding(new Insets(10));
+                placeOrder.setCursor(Cursor.HAND);
+                placeOrder.setPrefWidth(200);
+
+                HBox bottom = new HBox(20,continueShopping,placeOrder);
+                bottom.setPadding(new Insets(0,20,20,0));
+                bottom.setAlignment(Pos.BASELINE_RIGHT);
+
+                VBox leftVB = new VBox(15,
+                        productPane,
+                        bottom);
+                leftVB.setPrefWidth(0.6* main.window.getWidth());
+                main.window.widthProperty().addListener(e-> leftVB.setPrefWidth(0.6* main.window.getWidth()));
+
+                cartProduct.setLeft(leftVB);
             }
             else {
                 Label noResult = new Label("Your Cart is empty");
