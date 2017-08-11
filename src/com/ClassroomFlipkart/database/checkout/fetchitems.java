@@ -5,11 +5,14 @@ import com.ClassroomFlipkart.main.templates.checkout.itemDetail;
 import com.ClassroomFlipkart.main.templates.home.homeProducts;
 import com.ClassroomFlipkart.main.templates.home.profile;
 import com.ClassroomFlipkart.main.windows.home.main;
+import com.ClassroomFlipkart.database.address.fetch;
+import com.ClassroomFlipkart.database.orders.addOrders;
 
 import static com.ClassroomFlipkart.main.templates.home.profile.centerPane;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -23,9 +26,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Popup;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,9 +39,9 @@ import java.sql.ResultSet;
 public class fetchitems {
 
     public static int size;
-    public static int priceOfItem=0;
-    public static int amountToPay=0;
-    public static int savingAmount=0;
+    public static int priceOfItem;
+    public static int amountToPay;
+    public static int savingAmount;
 
     public static Label title;
     public static Label priceItem;
@@ -45,8 +50,12 @@ public class fetchitems {
     public static Label saving;
 
     public static BorderPane cartProduct;
-
+    public static ScrollPane addressScroller;
     public static BorderPane itemList(String emailId) {
+
+        priceOfItem = 0;
+        amountToPay = 0;
+        savingAmount = 0;
 
         cartProduct = new BorderPane();
 
@@ -59,7 +68,7 @@ public class fetchitems {
 
         priceItem = new Label();
         priceItem.setFont(Font.font("Open Sans", 15));
-        priceItem.setPadding(new Insets(15,5,5,30));
+        priceItem.setPadding(new Insets(10,5,5,30));
 
         price = new Label("₹ "+priceOfItem);
         price.setFont(Font.font("Open Sans", 15));
@@ -94,14 +103,35 @@ public class fetchitems {
         saving.setPrefWidth(300);
         saving.setTextFill(Paint.valueOf("green"));
         saving.setWrapText(true);
-        saving.setPadding(new Insets(10,10,30,30));
+        saving.setPadding(new Insets(10,10,20,30));
 
-        Label address = new Label("ADDRESS SAVED ");
-        address.setFont(Font.font("Open Sans", FontWeight.BOLD, 18));
-        address.setStyle("-fx-background-color: #2874f0");
-        address.setPrefWidth(300);
-        address.setTextFill(Paint.valueOf("#fff"));
-        address.setPadding(new Insets(10,10,10,30));
+        Label addressTitle = new Label("ADDRESS SAVED ");
+        addressTitle.setFont(Font.font("Open Sans", FontWeight.BOLD, 18));
+        addressTitle.setStyle("-fx-background-color: #2874f0");
+        addressTitle.setPrefWidth(300);
+        addressTitle.setTextFill(Paint.valueOf("#fff"));
+        addressTitle.setPadding(new Insets(10,10,10,30));
+
+        addressScroller = new ScrollPane(fetch.getAddress(emailId));
+        addressScroller.setFitToWidth(true);
+        addressScroller.setPrefHeight(main.window.getHeight()-505);
+        main.window.heightProperty().addListener(e-> addressScroller.setPrefHeight(main.window.getHeight()-505));
+
+        Button newAddress = GlyphsDude.createIconButton(
+                FontAwesomeIcon.PLUS_SQUARE,
+                "ADD ADDRESS ",
+                "18",
+                "18",
+                ContentDisplay.LEFT);
+        newAddress.setFont(Font.font("Open Sans", FontWeight.BOLD, 14));
+        newAddress.setTextFill(Paint.valueOf("#fff"));
+        newAddress.setStyle("-fx-background-color: #2874f0");
+        newAddress.setPadding(new Insets(10));
+
+        StackPane newAdd = new StackPane(newAddress);
+        newAdd.setPadding(new Insets(0,0,0,10));
+        newAdd.setAlignment(Pos.BASELINE_LEFT);
+        newAdd.setCursor(Cursor.HAND);
 
         VBox rightVB = new VBox(0,
                 priceTitle,
@@ -109,7 +139,9 @@ public class fetchitems {
                 deliveryPane,
                 amountPayablePane,
                 saving,
-                address
+                addressTitle,
+                addressScroller,
+                newAdd
         );
         rightVB.setPrefSize(300,500);
         rightVB.setPadding(new Insets(-40,30,0,0));
@@ -202,6 +234,52 @@ public class fetchitems {
                 placeOrder.setPadding(new Insets(10));
                 placeOrder.setCursor(Cursor.HAND);
                 placeOrder.setPrefWidth(200);
+                placeOrder.setOnAction(e-> {
+                    String status = addOrders.add(emailId);
+
+                    Label statuslabel = new Label();
+                    statuslabel.setFont(Font.font("Open Sans", FontWeight.SEMI_BOLD, 14));
+                    statuslabel.setTextFill(Color.web("#fff"));
+                    statuslabel.setAlignment(Pos.TOP_CENTER);
+
+                    BorderPane added = new BorderPane(statuslabel);
+                    added.setPadding(new Insets(15));
+
+                    if (status.equals("success")){
+                        statuslabel.setText("ORDER CONFIRMED. \nYou are now redirected to home page");
+                        added.setStyle("-fx-background-color: #191919;");
+                    }
+                    else{
+                        statuslabel.setText("SORRY. YOU ORDER CANNOT BE CONFIRMED. \nTRY LATER");
+                        added.setStyle("-fx-background-color: #ff4040;");
+                    }
+
+                    final Popup popup = new Popup();
+                    popup.setX(main.window.getX()+0.5*main.window.getWidth()-120);
+                    popup.setY(main.window.getY()+ main.window.getHeight() - 80);
+                    popup.getContent().add(added);
+                    popup.show(main.window);
+
+                    Task<Void> sleeper = new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+                            try {
+                                Thread.sleep(4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            return null;
+                        }
+                    };
+                    sleeper.setOnSucceeded(event-> {
+                        popup.hide();
+                        if (status.equals("success"))
+                            centerPane.setCenter(homeProducts.homeProducts());
+                    });
+                    new Thread(sleeper).start();
+
+                });
+
 
                 HBox bottom = new HBox(20,continueShopping,placeOrder);
                 bottom.setPadding(new Insets(0,20,20,0));

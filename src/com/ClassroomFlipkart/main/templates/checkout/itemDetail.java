@@ -35,7 +35,12 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class itemDetail {
+
+    public static final Pattern VALID_STRING_REGEX = Pattern.compile("^\\s*$", Pattern.CASE_INSENSITIVE);
 
     public static BorderPane view(String productId, String productName, String newPrice, String oldPrice, String category, String subcategory, String imageName, String productAvailability){
 
@@ -112,9 +117,9 @@ public class itemDetail {
         if (currentQuantity[0]==1)
             decrement.setDisable(true);
 
-        TextField quantity = new TextField(currentQuantity[0]+"");
+        Label quantity = new Label(currentQuantity[0]+"");
         quantity.setStyle("-fx-background-color: white; -fx-border-color: #f0f0f0; -fx-border-width: 1 1 1 1");
-        quantity.setPrefColumnCount(5);
+        quantity.setPrefSize(50,25);
         quantity.setAlignment(Pos.CENTER);
 
         Button increment = GlyphsDude.createIconButton(
@@ -140,10 +145,13 @@ public class itemDetail {
             updateCharges(priceOfItem,amountToPay,savingAmount);
 
             if (currentQuantity[0]==9)
-                decrement.setDisable(true);
+                increment.setDisable(true);
         });
 
         decrement.setOnAction(event -> {
+            if (currentQuantity[0]==9)
+                increment.setDisable(false);
+
             currentQuantity[0] = currentQuantity[0] - 1;
             updateItemQuantity.update(response[2],productId, currentQuantity[0]);
             quantity.setText(currentQuantity[0]+"");
@@ -155,18 +163,6 @@ public class itemDetail {
 
             if (currentQuantity[0]==1)
                 decrement.setDisable(true);
-        });
-        quantity.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*"))
-                quantity.setText(newValue.replaceAll("[^\\d]", ""));
-            if (newValue.length() > 1)
-                newValue = newValue.substring(0,1);
-
-            priceOfItem = priceOfItem - (Integer.parseInt(oldValue)-Integer.parseInt(newValue))*Integer.parseInt(newPrice);
-            amountToPay = amountToPay - (Integer.parseInt(oldValue)-Integer.parseInt(newValue))*Integer.parseInt(newPrice);
-            savingAmount = savingAmount - (Integer.parseInt(oldValue)-Integer.parseInt(newValue))*(Integer.parseInt(oldPrice)-Integer.parseInt(newPrice));
-            updateCharges(priceOfItem,amountToPay,savingAmount);
-
         });
 
         HBox hbquantity = new HBox(10,decrement,quantity,increment);
@@ -256,6 +252,11 @@ public class itemDetail {
         pay.setText("₹ "+payAmount);
         saving.setText("Your Total Savings on this order ₹ "+save);
 
+    }
+
+    public static boolean whitespacevalidate(String Str) {
+        Matcher matcher = VALID_STRING_REGEX .matcher(Str);
+        return matcher.find();
     }
 
 }

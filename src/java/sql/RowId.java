@@ -29,7 +29,7 @@ package java.sql;
  *
  * The representation (mapping) in the Java programming language of an SQL ROWID
  * value. An SQL ROWID is a built-in type, a value of which can be thought of as
- * an address  for its identified row in a database table. Whether that address
+ * an fetch  for its identified row in a database table. Whether that fetch
  * is logical or, in any  respects, physical is determined by its originating data
  * source.
  * <p>

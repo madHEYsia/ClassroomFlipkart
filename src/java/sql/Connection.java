@@ -1387,7 +1387,7 @@ throws SQLException;
      * <code>isClosed</code> or <code>Connection.isValid</code>
      * methods, will result in  a <code>SQLException</code>.
      * <p>
-     * <b>Note</b>: This method is intended to address a rare but serious
+     * <b>Note</b>: This method is intended to fetch a rare but serious
      * condition where network partitions can cause threads issuing JDBC calls
      * to hang uninterruptedly in socket reads, until the OS TCP-TIMEOUT
      * (typically 10 minutes). This method is related to the

@@ -54,7 +54,7 @@ import javax.sql.rowset.*;
  * do not have a standard way to establish an SQL <code>JOIN</code> between
  * <code>RowSet</code> objects without the expensive operation of
  * reconnecting to the data source. The <code>JoinRowSet</code>
- * interface is specifically designed to address this need.
+ * interface is specifically designed to fetch this need.
  * <P>
  * Any <code>RowSet</code> object
  * can be added to a <code>JoinRowSet</code> object to become

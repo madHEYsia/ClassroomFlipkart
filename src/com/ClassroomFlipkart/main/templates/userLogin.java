@@ -39,7 +39,7 @@ public class userLogin {
         vb.setPadding(new Insets(20));
 
         TextField emailId = new TextField();
-        emailId.setPromptText("Email address");
+        emailId.setPromptText("Email fetch");
         emailId.setFont(new Font("Open Sans", 15));
         emailId.setPrefHeight(30);
         emailId.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");

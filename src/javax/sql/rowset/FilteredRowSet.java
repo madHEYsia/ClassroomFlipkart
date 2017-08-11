@@ -45,7 +45,7 @@ import java.math.*;
  * a query language for all standard <code>RowSet</code> implementations; however,
  * this is an impractical approach for lightweight components such as disconnected
  * <code>RowSet</code>
- * objects. The <code>FilteredRowSet</code> interface seeks to address this need
+ * objects. The <code>FilteredRowSet</code> interface seeks to fetch this need
  * without supplying a heavyweight query language along with the processing that
  * such a query language would require.
  * <p>
