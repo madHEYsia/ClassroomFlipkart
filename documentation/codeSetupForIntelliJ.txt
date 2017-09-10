@@ -1,0 +1,23 @@
+//Code setup for DBMS project
+
+Install Sourcetree / Github / Git Bash for code management.
+Download and Install Java v1.8 (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). Why 1.8 ? Because we will be using 1.8 feature like lambda expression, etc which are not supported by lower Java versions.
+Clone the repository.
+Download IntelliJ (https://download.jetbrains.com/idea/ideaIU-2017.2.3.exe)-> Install -> Run -> "Do not import settings" -> Accept -> Evaluate for Free -> Accept -> "Skip All ..." -> 
+Go to File->Open Project-><RepoName> folder from Cloned/ Downloaded code  and Select.
+Download and Install MYSQL. 
+Open MYSQL workbench -> "Data Import/ Restore" -> "Import from Self-contained File" -> Choose dump sql file (src\com\<RepoName>\database\<RepoName>.sql) -> Click on "New..." -> Name it <RepoName> -> "Start Import".
+Make sure Driver, URL, Name and password are entered correctly according to your system configuration. You may correct it in src/com/<RepoName>/utils/property.java file.
+Create New Folder named "out" in <RepoName>/ path where your src folder is present. It will contain all production byte codes.
+Project SDK, Modules and Library Setup: 
+Go to File -> "Project Structure", then for 
+Project SDK: "Project" -> "New..." -> "JDK" -> C:\Program Files\Java\jdk1.8.0_131 (Now your 1.8 version is selected for this project). Below that, Choose Project language level as "SDK default (8 - Lambdaa, etc)". Below that, Choose Project compiler output as "out" folder created at step 9.
+Modules: Under "Sources" tab, right click on "src" -> "Test Resources". (Right hand side you could see src choosen as Test Resource folder).
+MYSQL Library: "Libraries" -> "+" -> "Java" -> select jar file from src\lib\sql\mysql-connector-java-5.1.41-bin.jar
+FontAwesome Library: "Libraries" -> "+" -> "Java" -> select jar file from src\lib\fontawesome\fontawesomefx-8.9.jar.
+Press OK.
+On Top Right, Click on dropdown (just before Run {play} button) and select Edit Confirguration. 
+Click "+" -> "Application" -> Give Name, Select Main class (main class is saved by name main.java, it would automatically search) under Project tab. Press OK.
+Click on Run button. Application ready for development.
+
+If you find any issue at any step add it issues with error screenshot. Thanks

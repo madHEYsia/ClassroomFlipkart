@@ -1,0 +1,13 @@
+//Code setup for Summer Interns
+
+1. Clone https://github.com/madHEYsia/PRIME.git
+2. Download and Install IntelliJ.
+3. Go to File->Open Project->src folder from Downloaded code  and Select.
+4. Download and Install MYSQL. And import dump sql file (src\com\PRIME\database\PRIMEdb.sql) to MYSQL Workbench. Schema Name: Prime.
+5. Make sure Driver, URL, Name and password are entered correctly according to your system configuration.
+6. Add mysql-connector-java-5.1.41-bin.jar to Libraries by(for Intellij): Go to Project Structure->Libraries-> "+" ->Java-> Choose 
+    src\mysql-connector-java-5.1.41-bin.jar Library
+7. Go to Project structure- > Modules -> Dependencies -> '+' -> new jar or Dependencies -> add /src/mysql-connector-java-5.1.41-bin.jar. Press Ok.
+8. Before running main file(src\com\PRIME\main\operations\main\main.java) Update JRE configuration to 1.8 version using edit configuration.
+
+If you find any issue at any step add it "https://github.com/madHEYsia/PRIME/issues" with error screenshot. Thanks
