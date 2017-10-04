@@ -1,8 +1,8 @@
-//Code setup for DBMS project
+//Code setup for MockFlipkart project
 
 Install Sourcetree / Github / Git Bash for code management.
 Download and Install Java v1.8 (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). Why 1.8 ? Because we will be using 1.8 feature like lambda expression, etc which are not supported by lower Java versions.
-Clone the repository.
+Fork and Clone the repository. For this new repository, go to settings and add madHEYsia as contributor.
 Download IntelliJ (https://download.jetbrains.com/idea/ideaIU-2017.2.3.exe)-> Install -> Run -> "Do not import settings" -> Accept -> Evaluate for Free -> Accept -> "Skip All ..." -> 
 Go to File->Open Project-><RepoName> folder from Cloned/ Downloaded code  and Select.
 Download and Install MYSQL. 
